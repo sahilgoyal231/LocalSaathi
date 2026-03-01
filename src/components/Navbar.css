@@ -1,0 +1,265 @@
+/* ════════════════════════════════════════════════════════════
+   NAVBAR — LocalSaathi Professional Design System v2.0
+════════════════════════════════════════════════════════════ */
+
+.navbar {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 0 var(--border-color), var(--shadow-xs);
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ── Brand Logo ──────────────────────────────────────────── */
+.navbar-logo {
+    color: #FFFFFF;
+    font-weight: var(--font-weight-bold);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: revealLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.navbar-logo:hover {
+    opacity: 0.85;
+}
+
+.navbar-logo span {
+    background: linear-gradient(135deg, #818CF8 0%, #6366F1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.navbar-logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 8px;
+    padding: 3px;
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    flex-shrink: 0;
+}
+
+.navbar-logo:hover .navbar-logo-img {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+/* ── Nav Links ───────────────────────────────────────────── */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    list-style: none;
+}
+
+.navbar-links li {
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-links a,
+.navbar-logout-btn {
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.navbar-links a:not(.navbar-btn):hover {
+    color: var(--text-primary);
+}
+
+/* ── Auth Buttons ────────────────────────────────────────── */
+.navbar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1.1rem;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.01em;
+    transition: var(--transition-base);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* Ghost pill — Login */
+.navbar-btn--login {
+    border: 1.5px solid var(--border-hover);
+    color: var(--text-secondary);
+    background: transparent;
+}
+
+.navbar-btn--login:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: var(--primary-muted);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-indigo-sm);
+}
+
+/* Filled pill — Register */
+.navbar-btn--register {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+    color: #FFFFFF !important;
+    border: 1.5px solid transparent;
+    box-shadow: 0 1px 4px rgba(99, 102, 241, 0.3);
+}
+
+.navbar-btn--register:hover {
+    background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-indigo);
+    color: #FFFFFF !important;
+}
+
+/* ── Profile Chip ────────────────────────────────────────── */
+.navbar-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.28rem 0.75rem 0.28rem 0.28rem;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--border-color);
+    background: transparent;
+    text-decoration: none;
+    transition: var(--transition-base);
+    color: var(--text-primary) !important;
+}
+
+.navbar-profile-btn:hover {
+    border-color: var(--primary-color);
+    background: var(--primary-muted);
+    box-shadow: var(--shadow-indigo-sm);
+    transform: translateY(-1px);
+    color: var(--primary-color) !important;
+}
+
+.navbar-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0;
+    box-shadow: 0 1px 4px rgba(99, 102, 241, 0.4);
+}
+
+.navbar-profile-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.navbar-profile-name {
+    font-size: 0.82rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.navbar-profile-role {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    text-transform: capitalize;
+}
+
+/* ── Logout Button ───────────────────────────────────────── */
+.navbar-logout-btn {
+    background: transparent;
+    border: 1.5px solid var(--border-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: var(--transition-base);
+    padding: 0;
+}
+
+.navbar-logout-btn:hover {
+    border-color: var(--error-color);
+    color: #F87171;
+    background: var(--error-muted);
+    transform: rotate(8deg) scale(1.08);
+}
+
+/* ── Mobile Menu ─────────────────────────────────────────── */
+.navbar-menu-icon {
+    display: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        height: 56px;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 56px;
+        left: -100%;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        background-color: var(--surface-color);
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow-md);
+        padding: var(--spacing-md);
+        gap: var(--spacing-xs);
+    }
+
+    .navbar-links.active {
+        left: 0;
+        opacity: 1;
+    }
+
+    .navbar-links li {
+        width: 100%;
+        height: auto;
+        padding: var(--spacing-sm) 0;
+    }
+
+    .navbar-menu-icon {
+        display: block;
+    }
+}

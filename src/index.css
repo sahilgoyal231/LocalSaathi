@@ -1,0 +1,596 @@
+:root {
+  /* ═══════════════════════════════════════════════════════════
+     LocalSaathi — Professional Design System v2.0
+     "Electric Indigo on Midnight Slate"
+     
+     Inspired by: Urban Company, Linear, Vercel, Thumbtack
+     Built for: scalable startup with investor-ready aesthetics
+  ═══════════════════════════════════════════════════════════ */
+
+  /* ── Primary Accent ─────────────────────────────────────── */
+  --primary-color: #6366F1;
+  /* Electric Indigo */
+  --primary-hover: #4F46E5;
+  /* Deeper Indigo on hover */
+  --primary-muted: rgba(99, 102, 241, 0.12);
+  /* Soft tint for bg fills */
+  --primary-ring: rgba(99, 102, 241, 0.30);
+  /* Focus ring */
+  --primary-glow: rgba(99, 102, 241, 0.45);
+  /* Button glow on hover */
+
+  /* ── Secondary / Accent ─────────────────────────────────── */
+  --secondary-color: #F59E0B;
+  /* Amber — warm trust signal */
+  --accent-color: #6366F1;
+
+  /* ── Background Layers (dark → light) ────────────────────── */
+  --background-color: #0B0F1A;
+  /* Midnight Slate — page base */
+  --surface-color: #111827;
+  /* Card / panel surface */
+  --surface-raised: #1F2937;
+  /* Input fields, elevated elements */
+  --surface-highlight: #374151;
+  /* Hover state, active rows */
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --text-primary: #F9FAFB;
+  /* Cloud White — headings, body */
+  --text-secondary: #9CA3AF;
+  /* Slate 400 — metadata, subtitles */
+  --text-muted: #6B7280;
+  /* Slate 500 — placeholders, disabled */
+  --text-inverse: #111827;
+  /* For text on white/light buttons */
+
+  /* ── Borders ────────────────────────────────────────────── */
+  --border-color: #1F2937;
+  /* Subtle separator */
+  --border-muted: #111827;
+  /* Barely visible edge */
+  --border-hover: #374151;
+  /* Revealed on hover */
+  --border-focus: #6366F1;
+  /* Indigo border on focus */
+
+  /* ── Semantic Status Colors ─────────────────────────────── */
+  --error-color: #EF4444;
+  --error-muted: rgba(239, 68, 68, 0.12);
+  --success-color: #10B981;
+  --success-muted: rgba(16, 185, 129, 0.12);
+  --warning-color: #F59E0B;
+  --warning-muted: rgba(245, 158, 11, 0.12);
+  --info-color: #38BDF8;
+  --info-muted: rgba(56, 189, 248, 0.12);
+
+  /* ── Spacing Scale ──────────────────────────────────────── */
+  --spacing-xs: 0.25rem;
+  /*  4px */
+  --spacing-sm: 0.5rem;
+  /*  8px */
+  --spacing-md: 1rem;
+  /* 16px */
+  --spacing-lg: 1.5rem;
+  /* 24px */
+  --spacing-xl: 2rem;
+  /* 32px */
+  --spacing-2xl: 3rem;
+  /* 48px */
+
+  /* ── Typography Scale ───────────────────────────────────── */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ── Elevation Shadows ──────────────────────────────────── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.65);
+  --shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.75);
+  --shadow-indigo: 0 6px 20px rgba(99, 102, 241, 0.40);
+  --shadow-indigo-sm: 0 3px 10px rgba(99, 102, 241, 0.25);
+
+  /* ── Border Radius ──────────────────────────────────────── */
+  --radius-xs: 0.25rem;
+  /*  4px */
+  --radius-sm: 0.375rem;
+  /*  6px */
+  --radius-md: 0.5rem;
+  /*  8px */
+  --radius-lg: 0.75rem;
+  /* 12px */
+  --radius-xl: 1rem;
+  /* 16px */
+  --radius-full: 9999px;
+  /* Pill */
+
+  /* ── Transitions ────────────────────────────────────────── */
+  --transition-fast: all 0.15s ease;
+  --transition-base: all 0.2s ease;
+  --transition-slow: all 0.3s ease;
+  --transition-spring: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ════════════════════════════════════════════════════════════
+   BASE RESET & GLOBAL STYLES
+════════════════════════════════════════════════════════════ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* ── Form Elements ─────────────────────────────────────────── */
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--border-hover);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--primary-ring);
+}
+
+::placeholder {
+  color: var(--text-muted);
+}
+
+/* ════════════════════════════════════════════════════════════
+   LAYOUT UTILITIES
+════════════════════════════════════════════════════════════ */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* ════════════════════════════════════════════════════════════
+   BUTTON SYSTEM — 3-tier hierarchy
+════════════════════════════════════════════════════════════ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.01em;
+  transition: var(--transition-base);
+  text-decoration: none;
+  gap: var(--spacing-xs);
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  line-height: 1;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.btn-sm {
+  padding: 0.3rem var(--spacing-md);
+  font-size: var(--font-size-xs);
+}
+
+/* Tier 1 — Primary: Electric Indigo fill */
+.btn-primary {
+  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  color: #FFFFFF !important;
+  border-color: transparent;
+  box-shadow: 0 1px 3px rgba(99, 102, 241, 0.25);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-indigo);
+  color: #FFFFFF !important;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-indigo-sm);
+}
+
+/* Tier 2 — Outline: ghost with indigo border */
+.btn-outline {
+  background: transparent;
+  border-color: var(--border-hover);
+  color: var(--text-primary) !important;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-muted);
+  color: var(--primary-color) !important;
+  transform: translateY(-1px);
+}
+
+/* Tier 3 — Ghost: no border, text only */
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-secondary) !important;
+}
+
+.btn-ghost:hover {
+  background: var(--surface-raised);
+  color: var(--text-primary) !important;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CARD COMPONENT
+════════════════════════════════════════════════════════════ */
+
+.card {
+  background-color: var(--surface-color);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-hover);
+}
+
+/* ════════════════════════════════════════════════════════════
+   BADGE SYSTEM — semantic status signals
+════════════════════════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  gap: 0.3rem;
+}
+
+/* Open / New — Electric Indigo (primary action needed) */
+.badge-open,
+.badge-new {
+  background: var(--primary-muted);
+  color: #818CF8;
+  /* Indigo 400 — readable in dark */
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+/* Pending — Amber (waiting for action) */
+.badge-pending {
+  background: var(--warning-muted);
+  color: #FCD34D;
+  /* Amber 300 */
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+/* Accepted — Emerald (confirmed, in progress) */
+.badge-accepted {
+  background: var(--success-muted);
+  color: #34D399;
+  /* Emerald 400 */
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  animation: pulseGlow 2.4s ease-in-out infinite;
+}
+
+/* Completed — Slate (done & archived) */
+.badge-completed {
+  background: rgba(107, 114, 128, 0.12);
+  color: #9CA3AF;
+  border: 1px solid rgba(107, 114, 128, 0.25);
+}
+
+/* Success — same as Accepted */
+.badge-success {
+  background: var(--success-muted);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Error / Rejected */
+.badge-error,
+.badge-rejected {
+  background: var(--error-muted);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* ════════════════════════════════════════════════════════════
+   ANIMATION KEYFRAMES
+════════════════════════════════════════════════════════════ */
+
+/* Smooth upward entrance — page transitions & cards */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale + fade — auth cards and modals */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Slide from right — detail panels */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Logo / heading reveal */
+@keyframes revealLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Accepted badge glow pulse */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18);
+  }
+}
+
+/* Shimmer sweep — button highlight */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Mobile slide down */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Indigo glow pulse — primary CTAs */
+@keyframes indigoPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.18);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   ANIMATION UTILITY CLASSES
+════════════════════════════════════════════════════════════ */
+
+.fade-in,
+.anim-slide-up {
+  animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-slide-right {
+  animation: slideInRight 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger delays for cascading lists / grids */
+.stagger-1 {
+  animation-delay: 0.04s;
+}
+
+.stagger-2 {
+  animation-delay: 0.10s;
+}
+
+.stagger-3 {
+  animation-delay: 0.16s;
+}
+
+.stagger-4 {
+  animation-delay: 0.22s;
+}
+
+.stagger-5 {
+  animation-delay: 0.28s;
+}
+
+/* Primary buttons: subtle lift + indigo glow */
+.btn-primary {
+  background-size: 200% auto;
+  transition: background-position 0.5s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+/* ── Page route transition ───────────────────────────────── */
+.page-enter {
+  animation: slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DATE INPUT — Eye-catching calendar icon wrapper
+═══════════════════════════════════════════════════════════════ */
+
+/* Wrapper that holds the icon + input */
+.date-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* The glowing icon badge on the left */
+.date-input-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  color: #fff;
+  pointer-events: none;
+  box-shadow: 2px 0 12px rgba(99, 102, 241, 0.45);
+  z-index: 1;
+  transition: box-shadow 0.2s ease;
+}
+
+/* Input padded to sit right of the icon badge */
+.date-input-wrapper input[type="date"] {
+  padding-left: 56px !important;
+  background: var(--surface-raised);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  height: 48px;
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  /* Hide browser's native calendar icon since we have our own */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.date-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  cursor: pointer;
+}
+
+.date-input-wrapper input[type="date"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-ring), 0 0 18px rgba(99, 102, 241, 0.2);
+}
+
+.date-input-wrapper:focus-within .date-input-icon {
+  box-shadow: 2px 0 20px rgba(99, 102, 241, 0.75);
+  background: linear-gradient(135deg, #818CF8 0%, #6366F1 100%);
+}
+
+/* Fallback for pages not using .date-input-wrapper yet */
+input[type="date"] {
+  color-scheme: dark;
+}
