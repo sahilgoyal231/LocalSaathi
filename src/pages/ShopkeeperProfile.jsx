@@ -25,9 +25,9 @@ const ShopkeeperProfile = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        updateProfile(formData);
+        await updateProfile(formData);
         navigate('/dashboard');
     };
 

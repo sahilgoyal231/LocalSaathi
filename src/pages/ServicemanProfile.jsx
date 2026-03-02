@@ -33,7 +33,7 @@ const ServicemanProfile = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const updates = { ...formData };
@@ -43,7 +43,7 @@ const ServicemanProfile = () => {
             updates.skillVerified = false;
         }
 
-        updateProfile(updates);
+        await updateProfile(updates);
 
         if (formData.skills !== user.skills) {
             navigate('/skill-quiz');

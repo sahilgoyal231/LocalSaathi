@@ -33,7 +33,7 @@ const FeedbackPage = () => {
         );
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (rating === 0) {
@@ -56,7 +56,7 @@ const FeedbackPage = () => {
         });
 
         const currentPoints = user.rewardPoints || 0;
-        updateProfile({ rewardPoints: currentPoints + points });
+        await updateProfile({ rewardPoints: currentPoints + points });
 
         setSubmitted(true);
     };

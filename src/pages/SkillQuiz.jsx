@@ -67,9 +67,9 @@ const SkillQuiz = () => {
         }
     };
 
-    const handleComplete = () => {
+    const handleComplete = async () => {
         const passed = score >= 4;
-        updateProfile({ quizScore: score, skillVerified: passed });
+        await updateProfile({ quizScore: score, skillVerified: passed });
         if (passed) {
             alert(t.passedQuiz || 'Congratulations! You passed the skill verification.');
             navigate('/dashboard');
