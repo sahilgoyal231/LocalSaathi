@@ -32,15 +32,20 @@ const Register = () => {
     const selectSkill = (category) => setFormData({ ...formData, skills: category });
     const services = Object.keys(serviceThemes).filter(k => !['default', 'Shopkeeper', 'Customer'].includes(k));
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         if (!formData.name || !formData.email || !formData.password) {
             setError('Please fill in all required fields.');
             return;
         }
 
-        register(formData);
-        navigate('/dashboard');
+        const res = await register(formData);
+        if (res.success) {
+            navigate('/dashboard');
+        } else {
+            setError(res.message || 'Registration failed.');
+        }
     };
 
     return (
