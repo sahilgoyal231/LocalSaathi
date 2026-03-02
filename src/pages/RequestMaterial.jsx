@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar } from 'lucide-react';
+import { ArrowLeft, Calendar, Image as ImageIcon } from 'lucide-react';
 
 const RequestMaterial = () => {
     const { user } = useAuth();
     const { addRequest } = useData();
     const navigate = useNavigate();
+    const dateRef = useRef(null);
+    const [pickerOpen, setPickerOpen] = useState(false);
     const today = new Date().toISOString().split('T')[0];
 
     const [formData, setFormData] = useState({
@@ -17,6 +19,8 @@ const RequestMaterial = () => {
         deliveryDate: ''
     });
 
+    const [imageStr, setImageStr] = useState(null);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!formData.category || !formData.requirements) return;
@@ -25,7 +29,8 @@ const RequestMaterial = () => {
             userId: user.id,
             userName: user.name,
             type: 'material',
-            ...formData
+            ...formData,
+            image: imageStr
         });
 
         navigate('/dashboard');
@@ -37,6 +42,16 @@ const RequestMaterial = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageStr(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <div className="container" style={{ maxWidth: '600px', padding: '2rem 1rem' }}>
@@ -84,15 +99,58 @@ const RequestMaterial = () => {
                     </div>
 
                     <div className="form-group">
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <ImageIcon size={18} /> Attach Image (Optional)
+                        </label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{ padding: '0.5rem 0' }}
+                        />
+                        {imageStr && (
+                            <div style={{ marginTop: '0.5rem' }}>
+                                <img src={imageStr} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', objectFit: 'contain' }} />
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="form-group">
                         <label>Preferred Delivery Date (Optional)</label>
                         <div className="date-input-wrapper">
-                            <span className="date-input-icon"><Calendar size={18} /></span>
+                            <span
+                                className="date-input-icon"
+                                style={{ cursor: 'pointer', pointerEvents: 'all' }}
+                                title={pickerOpen ? 'Close calendar' : 'Open calendar'}
+                                onClick={() => {
+                                    if (pickerOpen) {
+                                        dateRef.current?.blur();
+                                        setPickerOpen(false);
+                                    } else {
+                                        dateRef.current?.showPicker();
+                                        setPickerOpen(true);
+                                    }
+                                }}
+                            >
+                                <Calendar size={18} />
+                            </span>
                             <input
+                                ref={dateRef}
                                 type="date"
                                 name="deliveryDate"
                                 value={formData.deliveryDate}
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    handleChange(e);
+                                    setPickerOpen(false);
+                                }}
                                 min={today}
+                                onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    dateRef.current?.focus();
+                                    setPickerOpen(false);
+                                }}
+                                onClick={(e) => e.preventDefault()}
+                                onBlur={() => setPickerOpen(false)}
                             />
                         </div>
                     </div>

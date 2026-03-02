@@ -6,7 +6,7 @@ import { ArrowLeft, Check } from 'lucide-react';
 const RequestDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { requests, quotations } = useData();
+    const { requests, quotations, acceptQuotation } = useData();
     // In a real app we would have updateRequestStatus logic
 
     const request = requests.find(r => r.id === id);
@@ -15,9 +15,9 @@ const RequestDetails = () => {
     if (!request) return <div className="container" style={{ padding: '2rem' }}>Request not found.</div>;
 
     const handleAcceptQuote = (quoteId) => {
+        acceptQuotation(quoteId);
         alert(`Quote accepted! Contact the shopkeeper.`);
-        // Here we would update request status to 'closed' and quote status to 'accepted'
-        navigate('/dashboard');
+        navigate('/customer-dashboard');
     };
 
     return (
@@ -62,6 +62,14 @@ const RequestDetails = () => {
                                 </div>
                             </div>
                             {quote.note && <p style={{ fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic' }}>"{quote.note}"</p>}
+                            {quote.image && (
+                                <div style={{ marginBottom: '1rem' }}>
+                                    <label style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'block', marginBottom: '0.5rem' }}>Quotation Attachment</label>
+                                    <a href={quote.image} target="_blank" rel="noopener noreferrer">
+                                        <img src={quote.image} alt="Quotation Attachment" style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', cursor: 'pointer', border: '1px solid var(--border-color)' }} />
+                                    </a>
+                                </div>
+                            )}
 
                             <button onClick={() => handleAcceptQuote(quote.id)} className="btn btn-primary" style={{ width: '100%' }}>
                                 <Check size={16} /> Accept Quotation

@@ -44,28 +44,7 @@ const Navbar = () => {
                     <li>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
                             <Globe size={18} />
-                            <select
-                                value={language}
-                                onChange={(e) => {
-                                    changeLanguage(e.target.value);
-                                }}
-                                style={{
-                                    background: 'transparent',
-                                    border: '1px solid var(--border-color)',
-                                    borderRadius: '4px',
-                                    color: 'inherit',
-                                    cursor: 'pointer',
-                                    padding: '0.25rem',
-                                    fontSize: '0.9rem',
-                                    outline: 'none'
-                                }}
-                            >
-                                {languages.map(lang => (
-                                    <option key={lang.code} value={lang.code} style={{ background: 'var(--surface-color)', color: 'var(--text-primary)' }}>
-                                        {lang.native} ({lang.code.toUpperCase()})
-                                    </option>
-                                ))}
-                            </select>
+                            <div id="google_translate_element"></div>
                         </div>
                     </li>
                     {user && (

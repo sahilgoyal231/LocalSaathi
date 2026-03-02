@@ -80,6 +80,21 @@ export const DataProvider = ({ children }) => {
         ));
     };
 
+    const acceptQuotation = (quotationId) => {
+        const quotation = quotations.find(q => q.id === quotationId);
+        if (!quotation) return;
+
+        setQuotations(prev => prev.map(q =>
+            q.id === quotationId ? { ...q, status: 'accepted' } : q
+        ));
+
+        setRequests(prev => prev.map(r =>
+            r.id === quotation.requestId ? { ...r, status: 'closed' } : r
+        ));
+
+        addNotification(quotation.shopkeeperId, `Your quotation for ₹${quotation.totalAmount || quotation.amount} has been accepted!`, 'success');
+    };
+
     const addNotification = (userId, message, type = 'info') => {
         const newNotif = { id: Date.now().toString(), userId, message, type, read: false, date: new Date().toISOString() };
         setNotifications(prev => [newNotif, ...prev]);
@@ -105,6 +120,7 @@ export const DataProvider = ({ children }) => {
             updateBookingStatus,
             expressInterest,
             hireProvider,
+            acceptQuotation,
             addNotification,
             markNotificationRead,
             language,

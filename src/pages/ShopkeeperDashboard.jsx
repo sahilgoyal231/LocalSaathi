@@ -229,26 +229,41 @@ const ShopkeeperDashboard = () => {
                         <div className="card">{t.noactive}</div>
                     ) : (
                         <div style={{ display: 'grid', gap: '1rem' }}>
-                            {myOrders.map(order => (
-                                <div key={order.id} className="card">
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                                        <strong>Order #{order.id.slice(-4)}</strong>
-                                        <span className="badge badge-success">Accepted</span>
-                                    </div>
-                                    <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Amount: ₹{order.totalAmount || order.amount}</div>
+                            {myOrders.map(order => {
+                                const req = requests.find(r => r.id === order.requestId);
+                                return (
+                                    <div key={order.id} className="card">
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                                            <strong>Order #{order.id.slice(-4)}</strong>
+                                            <span className="badge badge-success">Accepted</span>
+                                        </div>
+                                        {req && <div style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.2rem', textTransform: 'capitalize' }}>{req.category}</div>}
+                                        <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Amount: <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>₹{order.totalAmount || order.amount}</span></div>
 
-                                    <select
-                                        style={{ width: '100%', padding: '0.5rem' }}
-                                        onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
-                                        defaultValue="Processing"
-                                    >
-                                        <option>Processing</option>
-                                        <option>Ready for Pickup</option>
-                                        <option>Dispatched</option>
-                                        <option>Delivered</option>
-                                    </select>
-                                </div>
-                            ))}
+                                        {order.items && order.items.length > 0 && (
+                                            <div style={{ fontSize: '0.85rem', marginBottom: '1rem', background: 'var(--surface-color)', padding: '0.5rem', borderRadius: '4px' }}>
+                                                <strong style={{ display: 'block', marginBottom: '0.25rem' }}>Items:</strong>
+                                                <ul style={{ margin: 0, paddingLeft: '1rem', color: 'var(--text-secondary)' }}>
+                                                    {order.items.map((item, i) => (
+                                                        <li key={i}>{item.qty}x {item.name}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+
+                                        <select
+                                            style={{ width: '100%', padding: '0.5rem' }}
+                                            onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
+                                            defaultValue="Processing"
+                                        >
+                                            <option>Processing</option>
+                                            <option>Ready for Pickup</option>
+                                            <option>Dispatched</option>
+                                            <option>Delivered</option>
+                                        </select>
+                                    </div>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
