@@ -36,6 +36,12 @@ const ProfileRedirect = () => {
   return <CustomerProfile />;
 };
 
+const RootRedirect = () => {
+  const { user } = useAuth();
+  // As requested, new unauthenticated users hitting the site directly go to login instead of dashboard
+  return user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />;
+};
+
 function App() {
   const [isAppLoading, setIsAppLoading] = useState(true);
 
@@ -144,7 +150,7 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                <Route path="/" element={<Navigate to="/dashboard" />} />
+                <Route path="/" element={<RootRedirect />} />
 
                 {/* Admin Routes */}
                 <Route path="/admin" element={<AdminRoute />}>

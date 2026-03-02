@@ -8,8 +8,8 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
-        unique: true,
+        sparse: true,
+        unique: true
     },
     password: {
         type: String,
@@ -17,8 +17,8 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'serviceman', 'admin', 'shopkeeper'],
-        default: 'user',
+        enum: ['user', 'customer', 'serviceman', 'admin', 'shopkeeper'],
+        default: 'customer',
     },
     // Additional fields for Servicemen
     serviceType: {
@@ -32,7 +32,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    contact: { type: String, default: '' },
+    contact: {
+        type: String,
+        sparse: true,
+        unique: true
+    },
     address: { type: String, default: '' },
     skills: { type: String, default: '' },
     rates: { type: String, default: '' },
@@ -58,9 +62,9 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 // Encrypt password using bcrypt
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
     if (!this.isModified('password')) {
-        return next();
+        return;
     }
 
     const salt = await bcrypt.genSalt(10);

@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { translations } from '../utils/translations';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { serviceThemes } from '../utils/serviceThemes';
 import logoImg from '../assets/logo.png';
 import '../styles/Auth.css';
+
 
 const Register = () => {
     const [hoveredSkill, setHoveredSkill] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
-        email: '',
+        identifier: '',
         password: '',
         role: 'customer',
         // Role specific fields
@@ -24,6 +25,13 @@ const Register = () => {
     const { language } = useData();
     const t = translations[language];
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.error) {
+            setError(location.state.error);
+        }
+    }, [location.state]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,14 +43,18 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        if (!formData.name || !formData.email || !formData.password) {
+        if (!formData.name || !formData.identifier || !formData.password) {
             setError('Please fill in all required fields.');
             return;
         }
 
         const res = await register(formData);
         if (res.success) {
-            navigate('/dashboard');
+            if (formData.role === 'serviceman') {
+                navigate('/skill-quiz');
+            } else {
+                navigate('/dashboard');
+            }
         } else {
             setError(res.message || 'Registration failed.');
         }
@@ -83,13 +95,13 @@ const Register = () => {
                     </div>
 
                     <div className="form-group">
-                        <label>{t?.emailAddr || "Email Address"}</label>
+                        <label>{t?.emailOrMobile || "Email or Mobile Number"}</label>
                         <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
+                            type="text"
+                            name="identifier"
+                            value={formData.identifier}
                             onChange={handleChange}
-                            placeholder="email@example.com"
+                            placeholder={t?.enterEmailOrMobile || "email@example.com or 9876543210"}
                             required
                         />
                     </div>

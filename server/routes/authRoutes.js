@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const QuizAttempt = require('../models/QuizAttempt');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { protect } = require('../middleware/authMiddleware');
@@ -16,25 +17,55 @@ const generateToken = (id) => {
 // @route   POST /api/auth/register
 // @access  Public
 router.post('/register', async (req, res) => {
-    const { name, email, password, role, shopName, gst, skills } = req.body;
+    const { name, identifier, password, role, shopName, gst, skills } = req.body;
 
     try {
-        const userExists = await User.findOne({ email });
+        const isEmail = identifier.includes('@');
+        let email = isEmail ? identifier : undefined;
+        let contact = !isEmail ? identifier : undefined;
 
-        if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
+        // Check if user has exceeded quiz attempts for this specific profile
+        if (role === 'serviceman') {
+            const quizAttempt = await QuizAttempt.findOne({ identifier, profile: skills });
+            if (quizAttempt && quizAttempt.attempts >= 3) {
+                return res.status(400).json({ message: 'Maximum 3 attempts reached for this profile. You cannot register.' });
+            }
         }
 
-        const user = await User.create({
-            name,
-            email,
-            password,
-            role,
-            shopName: shopName || '',
-            businessRegistration: gst || '',
-            skills: skills || '',
-            serviceType: skills || 'General',
+        const userExists = await User.findOne({
+            $or: [
+                { email: identifier },
+                { contact: identifier }
+            ]
         });
+
+        // If user exists, but they are an unverified serviceman, we allow them to overwrite and retry!
+        let user;
+        if (userExists) {
+            if (userExists.role === 'serviceman' && userExists.skillVerified === false) {
+                // Allows overwriting the previous unverified attempt completely
+                userExists.name = name;
+                userExists.password = password; // Will be hashed by pre-save
+                userExists.skills = skills || '';
+                userExists.serviceType = skills || 'General';
+                user = await userExists.save();
+            } else {
+                return res.status(400).json({ message: 'User already exists with this email or mobile number.' });
+            }
+        } else {
+            // New user branch
+            user = await User.create({
+                name,
+                email,
+                contact,
+                password,
+                role,
+                shopName: shopName || '',
+                businessRegistration: gst || '',
+                skills: skills || '',
+                serviceType: skills || 'General',
+            });
+        }
 
         if (user) {
             const userRes = user.toObject();
@@ -46,7 +77,7 @@ router.post('/register', async (req, res) => {
             res.status(400).json({ message: 'Invalid user data' });
         }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error(error); res.status(500).json({ message: error.message });
     }
 });
 
@@ -54,10 +85,15 @@ router.post('/register', async (req, res) => {
 // @route   POST /api/auth/login
 // @access  Public
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({
+            $or: [
+                { email: identifier },
+                { contact: identifier }
+            ]
+        });
 
         if (user && (await user.matchPassword(password))) {
             const userRes = user.toObject();
@@ -69,11 +105,10 @@ router.post('/login', async (req, res) => {
             res.status(401).json({ message: 'Invalid email or password' });
         }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error(error); res.status(500).json({ message: error.message });
     }
 });
 
-module.exports = router;
 
 // @desc    Update user profile
 // @route   PUT /api/auth/profile
@@ -97,7 +132,27 @@ router.put('/profile', protect, async (req, res) => {
 
             if (req.body.rewardPoints !== undefined) user.rewardPoints = req.body.rewardPoints;
             if (req.body.quizScore !== undefined) user.quizScore = req.body.quizScore;
-            if (req.body.skillVerified !== undefined) user.skillVerified = req.body.skillVerified;
+
+            if (req.body.skillVerified !== undefined) {
+                user.skillVerified = req.body.skillVerified;
+
+                // If they explicitly failed the skill verification, record the attempt
+                if (req.body.skillVerified === false && user.role === 'serviceman') {
+                    const identifier = user.email || user.contact;
+                    if (identifier) {
+                        try {
+                            await QuizAttempt.findOneAndUpdate(
+                                { identifier, profile: user.skills },
+                                { $inc: { attempts: 1 } },
+                                { upsert: true, new: true }
+                            );
+                        } catch (err) {
+                            console.error('Failed to record quiz attempt:', err);
+                        }
+                    }
+                }
+            }
+
             if (req.body.rating !== undefined) user.rating = req.body.rating;
             if (req.body.isVerified !== undefined) user.isVerified = req.body.isVerified;
 
@@ -117,6 +172,8 @@ router.put('/profile', protect, async (req, res) => {
             res.status(404).json({ message: 'User not found' });
         }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error(error); res.status(500).json({ message: error.message });
     }
 });
+
+module.exports = router;

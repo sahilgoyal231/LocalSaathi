@@ -7,7 +7,7 @@ import logoImg from '../assets/logo.png';
 import '../styles/Auth.css';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
+    const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { login, demoLogin } = useAuth();
@@ -18,7 +18,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const result = await login(email, password);
+            const result = await login(identifier, password);
             if (result.success) {
                 navigate('/dashboard');
             } else {
@@ -50,12 +50,12 @@ const Login = () => {
 
                         <form onSubmit={handleSubmit} className="auth-form">
                             <div className="form-group">
-                                <label>{t?.emailAddr || "Email Address"}</label>
+                                <label>{t?.emailOrMobile || "Email or Mobile Number"}</label>
                                 <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder={t?.enterEmail || "Enter your email"}
+                                    type="text"
+                                    value={identifier}
+                                    onChange={(e) => setIdentifier(e.target.value)}
+                                    placeholder={t?.enterEmailOrMobile || "Enter email or mobile"}
                                     required
                                 />
                             </div>

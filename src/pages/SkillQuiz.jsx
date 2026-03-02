@@ -7,7 +7,7 @@ import { quizQuestions } from '../data/quizQuestions';
 import { translations } from '../utils/translations';
 
 const SkillQuiz = () => {
-    const { user, updateProfile } = useAuth();
+    const { user, updateProfile, logout } = useAuth();
     const { language } = useData();
     const t = translations[language];
     const navigate = useNavigate();
@@ -74,7 +74,8 @@ const SkillQuiz = () => {
             alert(t.passedQuiz || 'Congratulations! You passed the skill verification.');
             navigate('/dashboard');
         } else {
-            navigate('/profile');
+            logout();
+            navigate('/register', { state: { error: t.failedQuiz || 'You did not pass the skill verification quiz. Please register again.' } });
         }
     };
 
