@@ -75,8 +75,25 @@ export const DataProvider = ({ children }) => {
     };
 
     const hireProvider = (bookingId, providerId) => {
+        setBookings(prev => prev.map(b => {
+            if (b.id === bookingId) {
+                const provider = b.interestedProviders?.find(p => p.id === providerId);
+                const agreedPrice = provider ? (provider.proposedRate || provider.rate) : 350;
+                return {
+                    ...b,
+                    status: 'accepted',
+                    servicemanId: providerId,
+                    agreedPrice: agreedPrice,
+                    interestedProviders: []
+                };
+            }
+            return b;
+        }));
+    };
+
+    const addBookingFeedback = (bookingId, feedback) => {
         setBookings(prev => prev.map(b =>
-            b.id === bookingId ? { ...b, status: 'accepted', servicemanId: providerId, interestedProviders: [] } : b
+            b.id === bookingId ? { ...b, feedback } : b
         ));
     };
 
@@ -108,6 +125,13 @@ export const DataProvider = ({ children }) => {
         setLanguage(langCode);
     };
 
+    const getProviderRating = (providerId) => {
+        const providerBookings = bookings.filter(b => b.servicemanId === providerId && b.feedback);
+        if (providerBookings.length === 0) return 4.8; // default starting rating
+        const totalRating = providerBookings.reduce((sum, b) => sum + b.feedback.rating, 0);
+        return (totalRating / providerBookings.length).toFixed(1);
+    };
+
     return (
         <DataContext.Provider value={{
             requests,
@@ -123,6 +147,8 @@ export const DataProvider = ({ children }) => {
             acceptQuotation,
             addNotification,
             markNotificationRead,
+            addBookingFeedback,
+            getProviderRating,
             language,
             changeLanguage
         }}>

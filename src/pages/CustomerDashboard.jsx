@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const CustomerDashboard = () => {
     const { user } = useAuth();
-    const { requests, bookings, quotations, hireProvider, language } = useData();
+    const { bookings, requests, quotations, hireProvider, addNotification, language, getProviderRating } = useData();
     const t = translations[language];
 
     const myRequests = requests.filter(r => r.userId === user.id);
@@ -82,7 +82,7 @@ const CustomerDashboard = () => {
                                                         <div>
                                                             <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{provider.name}</div>
                                                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-                                                                <span style={{ display: 'flex', alignItems: 'center', color: '#fbbf24' }}><Star size={14} fill="#fbbf24" strokeWidth={0} /> {provider.rating}</span>
+                                                                <span style={{ display: 'flex', alignItems: 'center', color: '#fbbf24' }}><Star size={14} fill="#fbbf24" strokeWidth={0} /> {getProviderRating(provider.id)}</span>
                                                                 <span>•</span>
                                                                 <span>{provider.experience} Yrs Exp.</span>
                                                             </div>
@@ -192,6 +192,17 @@ const CustomerDashboard = () => {
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                                             <Clock size={14} /> {new Date(booking.date).toLocaleDateString()}
                                         </div>
+                                        {!booking.feedback ? (
+                                            <div style={{ marginTop: '0.75rem' }}>
+                                                <Link to={`/feedback/${booking.id}`} className="btn btn-sm btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--warning-color)', borderColor: 'var(--warning-color)' }}>
+                                                    <Star size={14} /> Leave Feedback & Earn Rewards!
+                                                </Link>
+                                            </div>
+                                        ) : (
+                                            <div style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--success-color)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                                                <Star size={14} /> {booking.feedback.rating}/5 - You earned {booking.feedback.rewardEarned} pts
+                                            </div>
+                                        )}
                                     </li>
                                 ))}
                             </ul>

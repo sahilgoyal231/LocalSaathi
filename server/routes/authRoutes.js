@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { protect } = require('../middleware/authMiddleware');
 
 // Generate JWT
 const generateToken = (id) => {
@@ -34,13 +35,11 @@ router.post('/register', async (req, res) => {
         });
 
         if (user) {
-            res.status(201).json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user._id),
-            });
+            const userRes = user.toObject();
+            delete userRes.password;
+            userRes.token = generateToken(user._id);
+            userRes.id = user._id;
+            res.status(201).json(userRes);
         } else {
             res.status(400).json({ message: 'Invalid user data' });
         }
@@ -59,13 +58,11 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user && (await user.matchPassword(password))) {
-            res.json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user._id),
-            });
+            const userRes = user.toObject();
+            delete userRes.password;
+            userRes.token = generateToken(user._id);
+            userRes.id = user._id;
+            res.json(userRes);
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
         }
@@ -75,3 +72,49 @@ router.post('/login', async (req, res) => {
 });
 
 module.exports = router;
+
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+router.put('/profile', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+
+        if (user) {
+            user.name = req.body.name || user.name;
+            user.contact = req.body.contact || user.contact;
+            user.address = req.body.address || user.address;
+            user.skills = req.body.skills || user.skills;
+            user.rates = req.body.rates || user.rates;
+            user.serviceArea = req.body.serviceArea || user.serviceArea;
+            user.availability = req.body.availability || user.availability;
+            user.shopName = req.body.shopName || user.shopName;
+            user.shopAddress = req.body.shopAddress || user.shopAddress;
+            user.businessRegistration = req.body.businessRegistration || user.businessRegistration;
+            user.deliveryRadius = req.body.deliveryRadius || user.deliveryRadius;
+
+            if (req.body.rewardPoints !== undefined) user.rewardPoints = req.body.rewardPoints;
+            if (req.body.quizScore !== undefined) user.quizScore = req.body.quizScore;
+            if (req.body.skillVerified !== undefined) user.skillVerified = req.body.skillVerified;
+            if (req.body.rating !== undefined) user.rating = req.body.rating;
+            if (req.body.isVerified !== undefined) user.isVerified = req.body.isVerified;
+
+            if (req.body.password) {
+                user.password = req.body.password;
+            }
+
+            const updatedUser = await user.save();
+
+            const userRes = updatedUser.toObject();
+            delete userRes.password;
+            userRes.token = generateToken(updatedUser._id);
+            userRes.id = updatedUser._id;
+
+            res.json(userRes);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});

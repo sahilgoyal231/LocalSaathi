@@ -8,7 +8,7 @@ import { translations } from '../utils/translations';
 
 const ServicemanProfile = () => {
     const { user, updateProfile } = useAuth();
-    const { language } = useData();
+    const { language, getProviderRating } = useData();
     const t = translations[language];
     const navigate = useNavigate();
 
@@ -310,7 +310,7 @@ const ServicemanProfile = () => {
                 {/* ── Stats Row ──────────────────────────────────── */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(175px, 1fr))', gap: '1rem', marginTop: '1.25rem' }}>
                     {[
-                        { icon: <Star size={16} color={theme.primary} />, label: t.rating, value: `${user.rating || '4.8'} / 5.0` },
+                        { icon: <Star size={16} color={theme.primary} />, label: t.rating, value: `${getProviderRating(user.id)} / 5.0` },
                         { icon: <Briefcase size={16} color={theme.primary} />, label: t.experience, value: `${formData.experience || '—'} yrs` },
                         { icon: <MapPin size={16} color={theme.primary} />, label: t.serviceRadius, value: formData.serviceArea || '5km' },
                     ].map(stat => (

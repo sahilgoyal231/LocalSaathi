@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft, Save, Gift } from 'lucide-react';
 import { serviceThemes } from '../utils/serviceThemes';
 
 const CustomerProfile = () => {
@@ -47,28 +47,34 @@ const CustomerProfile = () => {
                 zIndex: 0
             }} />
             <div className="container" style={{ padding: '2rem 1rem', maxWidth: '800px', width: '100%', position: 'relative', zIndex: 1 }}>
-                <button
-                    onClick={() => navigate('/dashboard')}
-                    style={{
-                        marginBottom: '1.5rem',
-                        padding: '0.5rem',
-                        backgroundColor: 'var(--surface-color)',
-                        color: 'var(--text-primary)',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: 'var(--shadow-sm)',
-                        cursor: 'pointer',
-                        border: 'none',
-                        transition: 'all 0.2s ease',
-                    }}
-                    title="Back to Dashboard"
-                >
-                    <ArrowLeft size={20} />
-                </button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <button
+                        onClick={() => navigate('/dashboard')}
+                        style={{
+                            padding: '0.5rem',
+                            backgroundColor: 'var(--surface-color)',
+                            color: 'var(--text-primary)',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: 'var(--shadow-sm)',
+                            cursor: 'pointer',
+                            border: 'none',
+                            transition: 'all 0.2s ease',
+                        }}
+                        title="Back to Dashboard"
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--surface-color)', padding: '0.5rem 1rem', borderRadius: 'var(--radius-full)', boxShadow: 'var(--shadow-sm)' }}>
+                        <Gift size={18} color="var(--warning-color)" />
+                        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{user.rewardPoints || 0} Reward Points</span>
+                    </div>
+                </div>
 
                 <div className="card" style={{ background: 'var(--surface-color)' }}>
                     <h2 style={{ marginBottom: '1.5rem', color: 'var(--primary-color)' }}>Edit Profile</h2>

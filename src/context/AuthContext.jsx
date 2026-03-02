@@ -67,10 +67,36 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const updateProfile = (updates) => {
-    const updatedUser = { ...user, ...updates };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
+  const updateProfile = async (updates) => {
+    try {
+      const response = await fetch('http://localhost:5001/api/auth/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`
+        },
+        body: JSON.stringify(updates),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('user', JSON.stringify(data));
+        setUser(data);
+        return { success: true };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      // Fallback for demo users
+      if (user && user.id && user.token === 'demo-token') {
+        const updatedUser = { ...user, ...updates };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+        return { success: true };
+      }
+      return { success: false, message: error.message };
+    }
   };
 
   const demoLogin = (role, email, name = 'Demo User') => {

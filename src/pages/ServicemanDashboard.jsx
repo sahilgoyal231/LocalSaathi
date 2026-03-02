@@ -8,7 +8,7 @@ import { serviceThemes } from '../utils/serviceThemes';
 
 const ServicemanDashboard = () => {
     const { user } = useAuth();
-    const { bookings, updateBookingStatus, expressInterest, language } = useData();
+    const { bookings, updateBookingStatus, expressInterest, language, getProviderRating } = useData();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedBookingForInterest, setSelectedBookingForInterest] = useState(null);
     const [proposedRate, setProposedRate] = useState('');
@@ -316,7 +316,7 @@ const ServicemanDashboard = () => {
                                 <h4 style={{ margin: 0, color: '#fff', fontWeight: 600 }}>Customer Rating</h4>
                             </div>
                             <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--warning-color)', lineHeight: 1 }}>
-                                {user.rating || '4.8'}
+                                {getProviderRating(user.id)}
                                 <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 400 }}>&nbsp;/ 5.0</span>
                             </div>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '0.5rem' }}>Based on completed jobs</p>

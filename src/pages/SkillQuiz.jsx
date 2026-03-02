@@ -72,8 +72,10 @@ const SkillQuiz = () => {
         updateProfile({ quizScore: score, skillVerified: passed });
         if (passed) {
             alert(t.passedQuiz || 'Congratulations! You passed the skill verification.');
+            navigate('/dashboard');
+        } else {
+            navigate('/profile');
         }
-        navigate('/profile');
     };
 
     if (questions.length === 0) {
@@ -130,7 +132,7 @@ const SkillQuiz = () => {
                         <p style={{ margin: '1rem 0', color: 'var(--text-secondary)' }}>
                             {score >= 4 ? t.passedQuiz : t.failedQuiz}
                         </p>
-                        <button onClick={handleComplete} className="btn btn-primary">{t.returnToDashboard}</button>
+                        <button onClick={handleComplete} className="btn btn-primary">{score >= 4 ? t.returnToDashboard : (t.profile || 'Return to Profile')}</button>
                     </div>
                 )}
             </div>

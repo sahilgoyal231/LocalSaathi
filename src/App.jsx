@@ -11,6 +11,7 @@ import RequestMaterial from './pages/RequestMaterial';
 import BookService from './pages/BookService';
 import LeadDetails from './pages/LeadDetails';
 import RequestDetails from './pages/RequestDetails';
+import FeedbackPage from './pages/FeedbackPage';
 import ShopkeeperProfile from './pages/ShopkeeperProfile';
 import SkillQuiz from './pages/SkillQuiz';
 import ServicemanProfile from './pages/ServicemanProfile';
@@ -108,6 +109,14 @@ function App() {
                   element={
                     <PrivateRoute>
                       <PageTransition><RequestDetails /></PageTransition>
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/feedback/:id"
+                  element={
+                    <PrivateRoute>
+                      <PageTransition><FeedbackPage /></PageTransition>
                     </PrivateRoute>
                   }
                 />
