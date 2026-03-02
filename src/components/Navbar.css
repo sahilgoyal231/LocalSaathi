@@ -263,25 +263,3 @@
         display: block;
     }
 }
-/* ── Google Translate Overrides ────────────────────────────── */
-body {
-    top: 0 !important;
-}
-.skiptranslate iframe.goog-te-banner-frame {
-    display: none !important;
-}
-.goog-te-gadget {
-    color: transparent !important;
-    font-size: 0;
-}
-.goog-te-gadget .goog-te-combo {
-    color: var(--text-primary);
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 0.25rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    outline: none;
-    margin: 0;
-}

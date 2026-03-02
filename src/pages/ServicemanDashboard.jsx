@@ -10,6 +10,9 @@ const ServicemanDashboard = () => {
     const { user } = useAuth();
     const { bookings, updateBookingStatus, expressInterest, language } = useData();
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedBookingForInterest, setSelectedBookingForInterest] = useState(null);
+    const [proposedRate, setProposedRate] = useState('');
+    const [proposedTime, setProposedTime] = useState('');
     const t = translations[language];
 
     const theme = serviceThemes[user.skills] || serviceThemes['default'];
@@ -26,14 +29,22 @@ const ServicemanDashboard = () => {
     );
     const myJobs = bookings.filter(b => b.servicemanId === user.id);
 
-    const handleExpressInterest = (bookingId) => {
-        expressInterest(bookingId, {
+    const handleExpressInterest = (e) => {
+        e.preventDefault();
+        if (!selectedBookingForInterest) return;
+
+        expressInterest(selectedBookingForInterest.id, {
             id: user.id,
             name: user.name,
             rating: user.rating || 4.8,
-            rate: user.hourlyRate || 350,
-            experience: user.experience || 5
+            experience: user.experience || 5,
+            proposedRate: proposedRate || user.hourlyRate || 350,
+            proposedTime: proposedTime || 'Standard Service Time'
         });
+
+        setSelectedBookingForInterest(null);
+        setProposedRate('');
+        setProposedTime('');
     };
 
     const handleComplete = (bookingId) => {
@@ -87,6 +98,43 @@ const ServicemanDashboard = () => {
                         <Link to="/profile" className="btn btn-outline" style={{ padding: '0.65rem 1.4rem', fontSize: '1rem', fontWeight: '600', backgroundColor: 'rgba(255, 255, 255, 0.1)', color: '#fff', borderColor: 'rgba(255, 255, 255, 0.3)' }}>{t.profile}</Link>
                     </div>
                 </div>
+
+                {/* Express Interest Modal */}
+                {selectedBookingForInterest && (
+                    <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
+                        <div style={{ background: 'var(--surface-color)', padding: '2rem', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '400px', boxShadow: 'var(--shadow-lg)' }}>
+                            <h3 style={{ marginBottom: '1.5rem', marginTop: 0 }}>Propose Terms</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Set your expected price and estimated time required for this job. This will be sent to the customer.</p>
+
+                            <form onSubmit={handleExpressInterest}>
+                                <div className="form-group">
+                                    <label>Proposed Rate / Price (₹)</label>
+                                    <input
+                                        type="number"
+                                        value={proposedRate}
+                                        onChange={(e) => setProposedRate(e.target.value)}
+                                        placeholder={`e.g. ${user.hourlyRate || 350}`}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Estimated Time / Duration</label>
+                                    <input
+                                        type="text"
+                                        value={proposedTime}
+                                        onChange={(e) => setProposedTime(e.target.value)}
+                                        placeholder="e.g. 2 hours, Half Day"
+                                        required
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
+                                    <button type="button" onClick={() => setSelectedBookingForInterest(null)} className="btn btn-outline" style={{ flex: 1 }}>Cancel</button>
+                                    <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>Send Proposal</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
 
                 {/* Stats */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
@@ -165,7 +213,7 @@ const ServicemanDashboard = () => {
                                                         Interest Sent ✓
                                                     </button>
                                                 ) : (
-                                                    <button onClick={() => handleExpressInterest(job.id)} className="btn btn-full" style={{ background: theme.buttonGradient, color: '#ffffff', border: 'none' }}>
+                                                    <button onClick={() => setSelectedBookingForInterest(job)} className="btn btn-full" style={{ background: theme.buttonGradient, color: '#ffffff', border: 'none' }}>
                                                         Express Interest
                                                     </button>
                                                 )}

@@ -80,21 +80,23 @@ const CustomerDashboard = () => {
                                                         alignItems: 'center'
                                                     }}>
                                                         <div>
-                                                            <div style={{ fontWeight: 'bold' }}>{provider.name}</div>
-                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                                            <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{provider.name}</div>
+                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
                                                                 <span style={{ display: 'flex', alignItems: 'center', color: '#fbbf24' }}><Star size={14} fill="#fbbf24" strokeWidth={0} /> {provider.rating}</span>
                                                                 <span>•</span>
                                                                 <span>{provider.experience} Yrs Exp.</span>
-                                                                <span>•</span>
-                                                                <span style={{ color: 'var(--success-color)', fontWeight: 600 }}>₹{provider.rate}/hr</span>
+                                                            </div>
+                                                            <div style={{ marginTop: '0.75rem', fontSize: '0.95rem' }}>
+                                                                <span style={{ color: 'var(--success-color)', fontWeight: 600 }}>₹{provider.proposedRate}</span>
+                                                                <span style={{ color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>({provider.proposedTime})</span>
                                                             </div>
                                                         </div>
                                                         <button
                                                             onClick={() => hireProvider(booking.id, provider.id)}
                                                             className="btn btn-sm"
-                                                            style={{ background: 'var(--secondary-color)', color: '#ffffff' }}
+                                                            style={{ background: 'var(--secondary-color)', color: '#ffffff', padding: '0.75rem 1.5rem', alignSelf: 'center' }}
                                                         >
-                                                            Hire
+                                                            Hire Pro
                                                         </button>
                                                     </div>
                                                 ))}
