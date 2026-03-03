@@ -10,22 +10,41 @@ const TypewriterText = ({ text }) => {
     const [displayedText, setDisplayedText] = useState('');
 
     useEffect(() => {
-        setDisplayedText('');
-        let i = 0;
         let timeout;
+        let isDeleting = false;
+        let i = 0;
 
-        const typeNextChar = () => {
-            if (i < text.length) {
-                setDisplayedText(text.slice(0, i + 1));
-                i++;
-                // Natural typing delay: base speed + slight randomization
-                const delay = Math.random() * 40 + 60;
-                timeout = setTimeout(typeNextChar, delay);
+        const animate = () => {
+            if (!isDeleting) {
+                setDisplayedText(text.slice(0, i));
+
+                if (i < text.length) {
+                    i++;
+                    // Natural typing speed
+                    const delay = Math.random() * 40 + 70;
+                    timeout = setTimeout(animate, delay);
+                } else {
+                    // Reached the end, pause for a small interval
+                    isDeleting = true;
+                    timeout = setTimeout(animate, 3000);
+                }
+            } else {
+                setDisplayedText(text.slice(0, i));
+
+                if (i > 0) {
+                    i--;
+                    // Faster backspace speed
+                    const delay = Math.random() * 20 + 30;
+                    timeout = setTimeout(animate, delay);
+                } else {
+                    // Reached the beginning, pause before restarting
+                    isDeleting = false;
+                    timeout = setTimeout(animate, 800);
+                }
             }
         };
 
-        // Initial delay before typing starts
-        timeout = setTimeout(typeNextChar, 300);
+        timeout = setTimeout(animate, 500);
 
         return () => clearTimeout(timeout);
     }, [text]);
@@ -34,7 +53,9 @@ const TypewriterText = ({ text }) => {
         <h2 style={{
             fontSize: 'clamp(1.2rem, 4vw, 1.8rem)',
             whiteSpace: 'nowrap',
-            minHeight: '1.5em',
+            height: '2.5rem',
+            flexShrink: 0,
+            overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
