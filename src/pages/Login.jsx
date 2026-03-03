@@ -1,10 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { translations } from '../utils/translations';
 import { useNavigate, Link } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
 import '../styles/Auth.css';
+
+const TypewriterText = ({ text }) => {
+    const [displayedText, setDisplayedText] = useState('');
+
+    useEffect(() => {
+        setDisplayedText('');
+        let i = 0;
+        const timer = setInterval(() => {
+            setDisplayedText(text.slice(0, i + 1));
+            i++;
+            if (i >= text.length) {
+                clearInterval(timer);
+            }
+        }, 100); // 100ms per character for classic typing style
+        return () => clearInterval(timer);
+    }, [text]);
+
+    return (
+        <h2>
+            {displayedText}
+            <span className="typewriter-cursor">|</span>
+        </h2>
+    );
+};
 
 const Login = () => {
     const [identifier, setIdentifier] = useState('');
@@ -43,7 +67,7 @@ const Login = () => {
                             <img src={logoImg} alt="LocalSaathi" className="auth-logo" />
                             <span className="auth-brand-name">LocalSaathi</span>
                         </div>
-                        <h2>{t?.welcomeBack || "Welcome Back"}</h2>
+                        <TypewriterText text="Welcome to Your only Saathi" />
                         <p className="auth-subtitle">{t?.loginSubtitle || "Login to access your LocalSaathi dashboard"}</p>
 
                         {error && <div className="auth-error">{error}</div>}

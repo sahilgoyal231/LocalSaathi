@@ -218,3 +218,10 @@
         /* Hide hero image on smaller screens to prioritize login flow */
     }
 }
+.typewriter-cursor {
+    animation: blink 1s step-end infinite;
+    font-weight: 300;
+}
+@keyframes blink {
+    50% { opacity: 0; }
+}
