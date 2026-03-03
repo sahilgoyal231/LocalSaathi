@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, Image as ImageIcon } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 const RequestMaterial = () => {
     const { user } = useAuth();
@@ -110,7 +111,7 @@ const RequestMaterial = () => {
                         />
                         {imageStr && (
                             <div style={{ marginTop: '0.5rem' }}>
-                                <img src={imageStr} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', objectFit: 'contain' }} />
+                                <img src={imageStr} alt="Preview" onError={(e) => { e.target.onerror = null; e.target.src = logoImg; }} style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', objectFit: 'contain' }} />
                             </div>
                         )}
                     </div>

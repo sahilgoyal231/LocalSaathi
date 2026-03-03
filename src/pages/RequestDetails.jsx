@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { ArrowLeft, Check } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 const RequestDetails = () => {
     const { id } = useParams();
@@ -66,7 +67,7 @@ const RequestDetails = () => {
                                 <div style={{ marginBottom: '1rem' }}>
                                     <label style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'block', marginBottom: '0.5rem' }}>Quotation Attachment</label>
                                     <a href={quote.image} target="_blank" rel="noopener noreferrer">
-                                        <img src={quote.image} alt="Quotation Attachment" style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', cursor: 'pointer', border: '1px solid var(--border-color)' }} />
+                                        <img src={quote.image} alt="Quotation Attachment" onError={(e) => { e.target.onerror = null; e.target.src = logoImg; }} style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', cursor: 'pointer', border: '1px solid var(--border-color)' }} />
                                     </a>
                                 </div>
                             )}

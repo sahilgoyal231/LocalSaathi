@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { ArrowLeft, Plus, Trash, Image as ImageIcon } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 const LeadDetails = () => {
     const { id } = useParams();
@@ -128,7 +129,7 @@ const LeadDetails = () => {
                         <div style={{ gridColumn: '1 / -1', marginTop: '1rem' }}>
                             <label style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'block', marginBottom: '0.5rem' }}>Attached Image</label>
                             <a href={request.image} target="_blank" rel="noopener noreferrer">
-                                <img src={request.image} alt="Request Attachment" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', cursor: 'pointer', border: '1px solid var(--border-color)' }} />
+                                <img src={request.image} alt="Request Attachment" onError={(e) => { e.target.onerror = null; e.target.src = logoImg; }} style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', cursor: 'pointer', border: '1px solid var(--border-color)' }} />
                             </a>
                         </div>
                     )}
@@ -218,7 +219,7 @@ const LeadDetails = () => {
                                 />
                                 {quotationImage && (
                                     <div style={{ marginTop: '1rem' }}>
-                                        <img src={quotationImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', objectFit: 'contain', border: '1px solid var(--border-color)' }} />
+                                        <img src={quotationImage} alt="Preview" onError={(e) => { e.target.onerror = null; e.target.src = logoImg; }} style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', objectFit: 'contain', border: '1px solid var(--border-color)' }} />
                                     </div>
                                 )}
                             </div>

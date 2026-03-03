@@ -8,24 +8,49 @@ import '../styles/Auth.css';
 
 const TypewriterText = ({ text }) => {
     const [displayedText, setDisplayedText] = useState('');
+    const [showCursor, setShowCursor] = useState(true);
 
     useEffect(() => {
         setDisplayedText('');
+        setShowCursor(true);
         let i = 0;
-        const timer = setInterval(() => {
-            setDisplayedText(text.slice(0, i + 1));
-            i++;
-            if (i >= text.length) {
-                clearInterval(timer);
+        let timeout;
+
+        const typeNextChar = () => {
+            if (i < text.length) {
+                setDisplayedText(text.slice(0, i + 1));
+                i++;
+                // Natural typing delay: base speed + slight randomization
+                const delay = Math.random() * 40 + 60;
+                timeout = setTimeout(typeNextChar, delay);
+            } else {
+                // Wait exactly for one blink (1000ms), then remove the cursor
+                timeout = setTimeout(() => setShowCursor(false), 1000);
             }
-        }, 100); // 100ms per character for classic typing style
-        return () => clearInterval(timer);
+        };
+
+        // Initial delay before typing starts
+        timeout = setTimeout(typeNextChar, 300);
+
+        return () => clearTimeout(timeout);
     }, [text]);
 
     return (
-        <h2>
+        <h2 style={{ minHeight: '1.5em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {displayedText}
-            <span className="typewriter-cursor">|</span>
+            {showCursor && (
+                <span
+                    className="typewriter-cursor"
+                    style={{
+                        display: 'inline-block',
+                        width: '1px',
+                        height: '1.15em',
+                        backgroundColor: 'currentColor',
+                        marginLeft: '2px',
+                        animation: 'blink 1s step-end infinite'
+                    }}
+                />
+            )}
         </h2>
     );
 };
@@ -67,7 +92,7 @@ const Login = () => {
                             <img src={logoImg} alt="LocalSaathi" className="auth-logo" />
                             <span className="auth-brand-name">LocalSaathi</span>
                         </div>
-                        <TypewriterText text="Welcome to Your only Saathi" />
+                        <TypewriterText text="Welcome to Your only Saathi!" />
                         <p className="auth-subtitle">{t?.loginSubtitle || "Login to access your LocalSaathi dashboard"}</p>
 
                         {error && <div className="auth-error">{error}</div>}

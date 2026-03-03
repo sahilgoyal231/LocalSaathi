@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { ArrowLeft, CheckCircle, Upload } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 const JobDetails = () => {
     const { id } = useParams();
@@ -82,7 +83,7 @@ const JobDetails = () => {
                             <label style={{ display: 'block', marginBottom: '0.5rem' }}>Upload Completion Proof (Before/After Photo)</label>
                             <div style={{ border: '2px dashed var(--border-color)', borderRadius: 'var(--radius-md)', padding: '2rem', textAlign: 'center', cursor: 'pointer' }} onClick={() => document.getElementById('proof-upload').click()}>
                                 {proofImage ? (
-                                    <img src={proofImage} alt="Proof" style={{ maxHeight: '200px', maxWidth: '100%', borderRadius: 'var(--radius-md)' }} />
+                                    <img src={proofImage} alt="Proof" onError={(e) => { e.target.onerror = null; e.target.src = logoImg; }} style={{ maxHeight: '200px', maxWidth: '100%', borderRadius: 'var(--radius-md)' }} />
                                 ) : (
                                     <>
                                         <Upload size={32} color="var(--text-secondary)" style={{ marginBottom: '0.5rem' }} />
