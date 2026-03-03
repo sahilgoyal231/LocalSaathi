@@ -8,11 +8,9 @@ import '../styles/Auth.css';
 
 const TypewriterText = ({ text }) => {
     const [displayedText, setDisplayedText] = useState('');
-    const [showCursor, setShowCursor] = useState(true);
 
     useEffect(() => {
         setDisplayedText('');
-        setShowCursor(true);
         let i = 0;
         let timeout;
 
@@ -23,9 +21,6 @@ const TypewriterText = ({ text }) => {
                 // Natural typing delay: base speed + slight randomization
                 const delay = Math.random() * 40 + 60;
                 timeout = setTimeout(typeNextChar, delay);
-            } else {
-                // Wait exactly for one blink (1000ms), then remove the cursor
-                timeout = setTimeout(() => setShowCursor(false), 1000);
             }
         };
 
@@ -36,21 +31,35 @@ const TypewriterText = ({ text }) => {
     }, [text]);
 
     return (
-        <h2 style={{ minHeight: '1.5em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <h2 style={{
+            fontSize: 'clamp(1.2rem, 4vw, 1.8rem)',
+            whiteSpace: 'nowrap',
+            minHeight: '1.5em',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '1.5rem 0'
+        }}>
+            <style>
+                {`
+                    @keyframes smoothBlink {
+                        0%, 100% { opacity: 1; }
+                        50% { opacity: 0.2; }
+                    }
+                `}
+            </style>
             {displayedText}
-            {showCursor && (
-                <span
-                    className="typewriter-cursor"
-                    style={{
-                        display: 'inline-block',
-                        width: '1px',
-                        height: '1.15em',
-                        backgroundColor: 'currentColor',
-                        marginLeft: '2px',
-                        animation: 'blink 1s step-end infinite'
-                    }}
-                />
-            )}
+            <span
+                className="typewriter-cursor"
+                style={{
+                    display: 'inline-block',
+                    width: '1px',
+                    height: '1.2em',
+                    backgroundColor: 'currentColor',
+                    marginLeft: '4px',
+                    animation: 'smoothBlink 1.5s ease-in-out infinite'
+                }}
+            />
         </h2>
     );
 };
