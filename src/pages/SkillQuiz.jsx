@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { CheckCircle, XCircle } from 'lucide-react';
-import { quizQuestions } from '../data/quizQuestions';
+import { profileQuestions } from '../data/questions';
 import { translations } from '../utils/translations';
 
 const SkillQuiz = () => {
@@ -24,12 +24,12 @@ const SkillQuiz = () => {
     // 1. Pick indices once when the component mounts or user category changes.
     useEffect(() => {
         const userSkillCategory = user?.skills || 'default';
-        const normalizedCategory = Object.keys(quizQuestions).find(
+        const normalizedCategory = Object.keys(profileQuestions).find(
             key => key.toLowerCase() === userSkillCategory.toLowerCase()
-        ) || 'default';
+        ) || Object.keys(profileQuestions)[0];
 
-        // Get the total length of questions for this category (usually 10)
-        let qList = quizQuestions['en']?.[normalizedCategory] || quizQuestions['en']?.['default'] || [];
+        // Get the total length of questions for this category
+        const qList = profileQuestions[normalizedCategory]?.['en'] || profileQuestions['default']?.['en'] || [];
 
         // Generate an array of indices [0, 1, 2, ..., length-1]
         const indices = Array.from({ length: qList.length }, (_, i) => i);
@@ -44,11 +44,12 @@ const SkillQuiz = () => {
         if (questionIndices.length === 0) return;
 
         const userSkillCategory = user?.skills || 'default';
-        const normalizedCategory = Object.keys(quizQuestions).find(
+        const normalizedCategory = Object.keys(profileQuestions).find(
             key => key.toLowerCase() === userSkillCategory.toLowerCase()
-        ) || 'default';
+        ) || Object.keys(profileQuestions)[0];
 
-        let qList = quizQuestions[language]?.[normalizedCategory] || quizQuestions[language]?.['default'] || quizQuestions['en']?.[normalizedCategory] || quizQuestions['en']?.['default'] || [];
+        const profileData = profileQuestions[normalizedCategory] || profileQuestions[Object.keys(profileQuestions)[0]];
+        const qList = profileData?.[language] || profileData?.['en'] || [];
 
         // Map the preserved random indices to the currently selected language's question list
         const selected = questionIndices.map(index => qList[index]);
