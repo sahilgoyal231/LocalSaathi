@@ -112,7 +112,7 @@ export const AuthProvider = ({ children }) => {
       role,
       id,
       token: 'demo-token',
-      rating: 4.8,
+      rating: 0.0,
       hourlyRate: 350
     };
     localStorage.setItem('user', JSON.stringify(demoUser));

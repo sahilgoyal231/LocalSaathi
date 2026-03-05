@@ -97,6 +97,12 @@ export const DataProvider = ({ children }) => {
         ));
     };
 
+    const addOrderFeedback = (quotationId, feedback) => {
+        setQuotations(prev => prev.map(q =>
+            q.id === quotationId ? { ...q, feedback } : q
+        ));
+    };
+
     const acceptQuotation = (quotationId) => {
         const quotation = quotations.find(q => q.id === quotationId);
         if (!quotation) return;
@@ -110,6 +116,21 @@ export const DataProvider = ({ children }) => {
         ));
 
         addNotification(quotation.shopkeeperId, `Your quotation for ₹${quotation.totalAmount || quotation.amount} has been accepted!`, 'success');
+    };
+
+    const completeOrder = (quotationId) => {
+        const quotation = quotations.find(q => q.id === quotationId);
+        if (!quotation) return;
+
+        setQuotations(prev => prev.map(q =>
+            q.id === quotationId ? { ...q, status: 'completed' } : q
+        ));
+
+        // Let the customer know their material order is complete
+        const request = requests.find(r => r.id === quotation.requestId);
+        if (request) {
+            addNotification(request.userId, `Your order from ${quotation.shopkeeperName} has been completed!`, 'success');
+        }
     };
 
     const addNotification = (userId, message, type = 'info') => {
@@ -127,9 +148,23 @@ export const DataProvider = ({ children }) => {
 
     const getProviderRating = (providerId) => {
         const providerBookings = bookings.filter(b => b.servicemanId === providerId && b.feedback);
-        if (providerBookings.length === 0) return 4.8; // default starting rating
+        if (providerBookings.length === 0) return 0.0;
         const totalRating = providerBookings.reduce((sum, b) => sum + b.feedback.rating, 0);
         return (totalRating / providerBookings.length).toFixed(1);
+    };
+
+    // Returns average star rating for a shopkeeper based on order feedback
+    const getShopkeeperRating = (shopkeeperId) => {
+        const ratedOrders = quotations.filter(q => q.shopkeeperId === shopkeeperId && q.feedback);
+        if (ratedOrders.length === 0) return 0.0;
+        const total = ratedOrders.reduce((sum, q) => sum + q.feedback.rating, 0);
+        return parseFloat((total / ratedOrders.length).toFixed(1));
+    };
+
+    // Every rating (positive or negative) earns the shopkeeper 10 tier points
+    const getShopkeeperPoints = (shopkeeperId) => {
+        const ratedOrders = quotations.filter(q => q.shopkeeperId === shopkeeperId && q.feedback);
+        return ratedOrders.length * 10;
     };
 
     return (
@@ -145,10 +180,14 @@ export const DataProvider = ({ children }) => {
             expressInterest,
             hireProvider,
             acceptQuotation,
+            completeOrder,
             addNotification,
             markNotificationRead,
             addBookingFeedback,
+            addOrderFeedback,
             getProviderRating,
+            getShopkeeperRating,
+            getShopkeeperPoints,
             language,
             changeLanguage
         }}>

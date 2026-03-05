@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const ShopkeeperDashboard = () => {
     const { user } = useAuth();
-    const { requests, quotations, language } = useData();
+    const { requests, quotations, language, completeOrder, getShopkeeperRating, getShopkeeperPoints } = useData();
     const [searchTerm, setSearchTerm] = useState('');
     const t = translations[language];
 
@@ -27,7 +27,8 @@ const ShopkeeperDashboard = () => {
 
     // ── Tier system — 12 levels (3 per tier) ──────────────────────────────
     // Color intensity increases with each level: dim → medium → vivid
-    const MOCK_POINTS = 1250; // In production, pull from user object
+    // Every rating received (positive or negative) grants 10 pts
+    const LIVE_POINTS = getShopkeeperPoints(user.id);
 
     const tierLevels = [
         // Bronze I — muted warm copper
@@ -132,11 +133,11 @@ const ShopkeeperDashboard = () => {
     ];
 
     const getCurrentLevel = (pts) => tierLevels.find(t => pts >= t.min && pts <= t.max) || tierLevels[0];
-    const tier = getCurrentLevel(MOCK_POINTS);
+    const tier = getCurrentLevel(LIVE_POINTS);
 
     // Within-level progress (for the sub-level bar)
     const levelProgress = tier.nextPts
-        ? Math.min(((MOCK_POINTS - tier.min) / (tier.nextPts - tier.min)) * 100, 100)
+        ? Math.min(((LIVE_POINTS - tier.min) / (tier.nextPts - tier.min)) * 100, 100)
         : 100;
 
     // Overall tier-family progress (Bronze → Silver → Gold → Platinum)
@@ -144,7 +145,7 @@ const ShopkeeperDashboard = () => {
     const tierFamilyMin = { Bronze: 0, Silver: 500, Gold: 1000, Platinum: 2500 };
     const familyProgress = tier.tier === 'Platinum' && !tier.nextPts
         ? 100
-        : Math.min(((MOCK_POINTS - tierFamilyMin[tier.tier]) / (tierFamilyMax[tier.tier] - tierFamilyMin[tier.tier])) * 100, 100);
+        : Math.min(((LIVE_POINTS - tierFamilyMin[tier.tier]) / (tierFamilyMax[tier.tier] - tierFamilyMin[tier.tier])) * 100, 100);
 
     // Dot state for 3 level dots
     const levelDots = [1, 2, 3].map(l => l <= tier.level);
@@ -235,7 +236,9 @@ const ShopkeeperDashboard = () => {
                                     <div key={order.id} className="card">
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                                             <strong>Order #{order.id.slice(-4)}</strong>
-                                            <span className="badge badge-success">Accepted</span>
+                                            <span className={`badge badge-${order.status === 'completed' ? 'completed' : 'success'}`}>
+                                                {order.status === 'completed' ? 'Completed' : 'Accepted'}
+                                            </span>
                                         </div>
                                         {req && <div style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.2rem', textTransform: 'capitalize' }}>{req.category}</div>}
                                         <div style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Amount: <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>₹{order.totalAmount || order.amount}</span></div>
@@ -251,16 +254,22 @@ const ShopkeeperDashboard = () => {
                                             </div>
                                         )}
 
-                                        <select
-                                            style={{ width: '100%', padding: '0.5rem' }}
-                                            onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
-                                            defaultValue="Processing"
-                                        >
-                                            <option>Processing</option>
-                                            <option>Ready for Pickup</option>
-                                            <option>Dispatched</option>
-                                            <option>Delivered</option>
-                                        </select>
+                                        {order.status === 'accepted' ? (
+                                            <button
+                                                className="btn btn-primary"
+                                                style={{ width: '100%', marginTop: '0.5rem', display: 'flex', justifyContent: 'center', gap: '0.5rem', alignItems: 'center' }}
+                                                onClick={() => {
+                                                    completeOrder(order.id);
+                                                    alert('Order marked as completed!');
+                                                }}
+                                            >
+                                                <CheckCircle size={16} /> Complete Order
+                                            </button>
+                                        ) : (
+                                            <div style={{ color: 'var(--success-color)', fontWeight: 600, textAlign: 'center', marginTop: '0.5rem', padding: '0.5rem', background: 'var(--surface-color)', borderRadius: '4px' }}>
+                                                🎉 Order Completed
+                                            </div>
+                                        )}
                                     </div>
                                 );
                             })}
@@ -317,7 +326,7 @@ const ShopkeeperDashboard = () => {
 
                         {/* ── Points value ── */}
                         <div style={{ fontSize: '2rem', fontWeight: 800, color: tier.color, margin: '0.6rem 0 0.2rem', letterSpacing: '-0.02em', lineHeight: 1 }}>
-                            {MOCK_POINTS.toLocaleString()}
+                            {LIVE_POINTS.toLocaleString()}
                             <span style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-muted)', marginLeft: '0.3rem' }}>pts</span>
                         </div>
 
@@ -338,7 +347,7 @@ const ShopkeeperDashboard = () => {
                         <div style={{ marginTop: '0.75rem' }}>
                             {tier.nextPts ? (
                                 <small style={{ color: 'var(--text-muted)', fontSize: '0.73rem' }}>
-                                    {(tier.nextPts - MOCK_POINTS).toLocaleString()} pts to&nbsp;
+                                    {(tier.nextPts - LIVE_POINTS).toLocaleString()} pts to&nbsp;
                                     <strong style={{ color: tier.color }}>{tier.next?.replace('-', ' ')}</strong>
                                 </small>
                             ) : (
@@ -349,10 +358,21 @@ const ShopkeeperDashboard = () => {
                     <div className="card">
                         <h3>Customer Ratings</h3>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: '1rem 0' }}>
-                            <span style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--accent-color)' }}>4.8</span>
+                            <span style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--accent-color)' }}>
+                                {getShopkeeperRating(user.id) > 0 ? getShopkeeperRating(user.id).toFixed(1) : '—'}
+                            </span>
                             <span>/ 5.0</span>
                         </div>
-                        <p style={{ color: 'var(--text-secondary)' }}>Based on 42 reviews</p>
+                        {(() => {
+                            const ratingCount = quotations.filter(q => q.shopkeeperId === user.id && q.feedback).length;
+                            return (
+                                <p style={{ color: 'var(--text-secondary)' }}>
+                                    {ratingCount === 0
+                                        ? 'No ratings yet — complete orders to get rated!'
+                                        : `Based on ${ratingCount} review${ratingCount === 1 ? '' : 's'}`}
+                                </p>
+                            );
+                        })()}
                     </div>
                     <div className="card">
                         <h3>Monthly Revenue</h3>

@@ -10,12 +10,24 @@ const CustomerDashboard = () => {
     const { bookings, requests, quotations, hireProvider, addNotification, language, getProviderRating } = useData();
     const t = translations[language];
 
-    const myRequests = requests.filter(r => r.userId === user.id);
+    const myRequests = requests.filter(r =>
+        r.userId === user.id &&
+        !quotations.some(q => q.requestId === r.id && q.status === 'completed')
+    );
 
     // Split bookings by status
     const myPendingBookings = bookings.filter(b => b.userId === user.id && b.status === 'pending');
     const myUpcomingBookings = bookings.filter(b => b.userId === user.id && b.status === 'accepted');
     const myCompletedBookings = bookings.filter(b => b.userId === user.id && b.status === 'completed');
+
+    const myCompletedMaterialOrders = quotations.filter(q =>
+        q.status === 'completed' &&
+        requests.some(r => r.id === q.requestId && r.userId === user.id)
+    );
+    const myAcceptedMaterialOrders = quotations.filter(q =>
+        q.status === 'accepted' &&
+        requests.some(r => r.id === q.requestId && r.userId === user.id)
+    );
 
     // Helper to count quotes for a request
     const getQuoteCount = (reqId) => quotations.filter(q => q.requestId === reqId).length;
@@ -166,7 +178,7 @@ const CustomerDashboard = () => {
                             <h3 style={{ color: 'var(--secondary-color)' }}>Upcoming Services</h3>
                         </div>
 
-                        {myUpcomingBookings.length === 0 ? (
+                        {myUpcomingBookings.length === 0 && myAcceptedMaterialOrders.length === 0 ? (
                             <p style={{ color: 'var(--text-secondary)' }}>No confirmed upcoming services.</p>
                         ) : (
                             <ul style={{ listStyle: 'none' }}>
@@ -181,16 +193,31 @@ const CustomerDashboard = () => {
                                         </div>
                                         <div style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>
                                             <span style={{ color: 'var(--text-secondary)' }}>Pro: </span>
-                                            {/* We might need to find the pro name, but sending it via ID is harder without a lookup. 
-                                                For now we assume the ID is enough or we rely on the backend/context to hydrate it.
-                                                Actually, we don't have the pro name easily available here unless we store it in the booking
-                                                or look it up from users. 
-                                                However, for now, let's just show the status.
-                                             */}
                                             <span style={{ fontWeight: 500 }}>Assigned Professional</span>
                                         </div>
                                     </li>
                                 ))}
+                                {myAcceptedMaterialOrders.map(order => {
+                                    const req = requests.find(r => r.id === order.requestId);
+                                    return (
+                                        <li key={`mat-up-${order.id}`} style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--border-color)' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <strong style={{ textTransform: 'capitalize' }}>{req?.category || 'Material Order'}</strong>
+                                                <span className="badge badge-accepted">Order Confirmed</span>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                                                <Clock size={14} /> {new Date(order.date).toLocaleDateString()}
+                                            </div>
+                                            <div style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Shop: </span>
+                                                <span style={{ fontWeight: 500 }}>{order.shopkeeperName}</span>
+                                                <span style={{ margin: '0 0.5rem', color: 'var(--text-muted)' }}>|</span>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Amount: </span>
+                                                <span style={{ fontWeight: 500 }}>₹{order.totalAmount || order.amount}</span>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         )}
                     </div>
@@ -201,8 +228,8 @@ const CustomerDashboard = () => {
                             <h3>Completed Services</h3>
                         </div>
 
-                        {myCompletedBookings.length === 0 ? (
-                            <p style={{ color: 'var(--text-secondary)' }}>No completed services yet.</p>
+                        {myCompletedBookings.length === 0 && myCompletedMaterialOrders.length === 0 ? (
+                            <p style={{ color: 'var(--text-secondary)' }}>No completed services or orders yet.</p>
                         ) : (
                             <ul style={{ listStyle: 'none' }}>
                                 {myCompletedBookings.map(booking => (
@@ -227,6 +254,38 @@ const CustomerDashboard = () => {
                                         )}
                                     </li>
                                 ))}
+                                {myCompletedMaterialOrders.map(order => {
+                                    const req = requests.find(r => r.id === order.requestId);
+                                    return (
+                                        <li key={`mat-${order.id}`} style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--border-color)' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <strong style={{ textTransform: 'capitalize' }}>{req?.category || 'Material Order'}</strong>
+                                                <span className="badge badge-completed">Completed</span>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                                                <Clock size={14} /> {new Date(order.date).toLocaleDateString()}
+                                            </div>
+                                            <div style={{ marginTop: '0.75rem', fontSize: '0.9rem' }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Shop: </span>
+                                                <span style={{ fontWeight: 500 }}>{order.shopkeeperName}</span>
+                                                <span style={{ margin: '0 0.5rem', color: 'var(--text-muted)' }}>|</span>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Amount: </span>
+                                                <span style={{ fontWeight: 500 }}>₹{order.totalAmount || order.amount}</span>
+                                            </div>
+                                            {!order.feedback ? (
+                                                <div style={{ marginTop: '0.75rem' }}>
+                                                    <Link to={`/order-feedback/${order.id}`} className="btn btn-sm btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--warning-color)', borderColor: 'var(--warning-color)' }}>
+                                                        <Star size={14} /> Leave Feedback & Earn Rewards!
+                                                    </Link>
+                                                </div>
+                                            ) : (
+                                                <div style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--success-color)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                                                    <Star size={14} /> {order.feedback.rating}/5 - You earned {order.feedback.rewardEarned} pts
+                                                </div>
+                                            )}
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         )}
                     </div>
