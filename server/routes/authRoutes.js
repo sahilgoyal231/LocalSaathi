@@ -24,8 +24,17 @@ router.post('/register', async (req, res) => {
         let email = isEmail ? identifier : undefined;
         let contact = !isEmail ? identifier : undefined;
 
+        // Security Validation: Prevent unauthorized admin creation
+        let assignedRole = role;
+        if (assignedRole === 'admin') {
+            return res.status(403).json({ message: 'Unauthorized role assignment. Admin accounts must be created manually.' });
+        }
+        if (!['user', 'customer', 'serviceman', 'shopkeeper'].includes(assignedRole)) {
+            assignedRole = 'customer'; // Default fallback
+        }
+
         // Check if user has exceeded quiz attempts for this specific profile
-        if (role === 'serviceman') {
+        if (assignedRole === 'serviceman') {
             const quizAttempt = await QuizAttempt.findOne({ identifier, profile: skills });
             if (quizAttempt && quizAttempt.attempts >= 3) {
                 return res.status(400).json({ message: 'Maximum 3 attempts reached for this profile. You cannot register.' });
@@ -59,11 +68,12 @@ router.post('/register', async (req, res) => {
                 email,
                 contact,
                 password,
-                role,
+                role: assignedRole,
                 shopName: shopName || '',
                 businessRegistration: gst || '',
                 skills: skills || '',
                 serviceType: skills || 'General',
+                experience: parseInt(req.body.experience) || 0,
             });
         }
 

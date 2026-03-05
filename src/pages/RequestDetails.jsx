@@ -18,7 +18,7 @@ const RequestDetails = () => {
     const handleAcceptQuote = (quoteId) => {
         acceptQuotation(quoteId);
         alert(`Quote accepted! Contact the shopkeeper.`);
-        navigate('/customer-dashboard');
+        navigate('/dashboard');
     };
 
     return (

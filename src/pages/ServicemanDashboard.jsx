@@ -108,22 +108,25 @@ const ServicemanDashboard = () => {
 
                             <form onSubmit={handleExpressInterest}>
                                 <div className="form-group">
-                                    <label>Proposed Rate / Price (₹)</label>
+                                    <label>Rate per Day (₹)</label>
                                     <input
                                         type="number"
                                         value={proposedRate}
                                         onChange={(e) => setProposedRate(e.target.value)}
                                         placeholder={`e.g. ${user.hourlyRate || 350}`}
+                                        min="1"
                                         required
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>Estimated Time / Duration</label>
+                                    <label>Hours per Day</label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={proposedTime}
                                         onChange={(e) => setProposedTime(e.target.value)}
-                                        placeholder="e.g. 2 hours, Half Day"
+                                        placeholder="e.g. 5"
+                                        min="1"
+                                        step="0.5"
                                         required
                                     />
                                 </div>

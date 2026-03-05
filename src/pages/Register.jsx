@@ -18,7 +18,8 @@ const Register = () => {
         // Role specific fields
         shopName: '',
         gst: '',
-        skills: ''
+        skills: '',
+        experience: ''
     });
     const [error, setError] = useState('');
     const { register } = useAuth();
@@ -211,6 +212,20 @@ const Register = () => {
                                         </div>
                                     );
                                 })}
+                            </div>
+
+                            <div className="form-group" style={{ marginTop: '1.5rem' }}>
+                                <label>{t?.yearsOfExperience || "Years of Experience"}</label>
+                                <input
+                                    type="number"
+                                    name="experience"
+                                    value={formData.experience}
+                                    onChange={handleChange}
+                                    placeholder="e.g. 3"
+                                    min="0"
+                                    max="50"
+                                    required
+                                />
                             </div>
                         </div>
                     )}

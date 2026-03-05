@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
     rewardPoints: { type: Number, default: 0 },
     quizScore: { type: Number, default: 0 },
     skillVerified: { type: Boolean, default: false },
-    rating: { type: Number, default: 4.8 },
+    rating: { type: Number, default: 0.0 },
     createdAt: {
         type: Date,
         default: Date.now,

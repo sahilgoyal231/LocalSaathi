@@ -1,8 +1,9 @@
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { translations } from '../utils/translations';
-import { PlusCircle, Wrench, Package, Clock, Star } from 'lucide-react';
+import { PlusCircle, Wrench, Package, Clock, Star, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getRatingColor } from '../utils/ratingColors';
 
 const CustomerDashboard = () => {
     const { user } = useAuth();
@@ -80,21 +81,42 @@ const CustomerDashboard = () => {
                                                         alignItems: 'center'
                                                     }}>
                                                         <div>
-                                                            <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{provider.name}</div>
-                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-                                                                <span style={{ display: 'flex', alignItems: 'center', color: '#fbbf24' }}><Star size={14} fill="#fbbf24" strokeWidth={0} /> {getProviderRating(provider.id)}</span>
-                                                                <span>•</span>
-                                                                <span>{provider.experience} Yrs Exp.</span>
+                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                                                                <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{provider.name}</div>
+                                                                {provider.rating >= 4.0 && <ShieldCheck size={16} color="var(--success-color)" title="Top Rated Pro" />}
                                                             </div>
-                                                            <div style={{ marginTop: '0.75rem', fontSize: '0.95rem' }}>
-                                                                <span style={{ color: 'var(--success-color)', fontWeight: 600 }}>₹{provider.proposedRate}</span>
-                                                                <span style={{ color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>({provider.proposedTime})</span>
+                                                            <div style={{ color: 'var(--primary-color)', fontSize: '0.9rem', fontWeight: 500, marginTop: '2px' }}>
+                                                                {provider.skills || 'Professional Service'}
+                                                            </div>
+
+                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)', marginTop: '0.4rem' }}>
+                                                                <span style={{ display: 'flex', alignItems: 'center', color: getRatingColor(provider.rating), fontWeight: 600 }}>
+                                                                    <Star size={14} fill="currentColor" strokeWidth={0} style={{ marginRight: '4px' }} />
+                                                                    {Number(provider.rating || 0).toFixed(1)}
+                                                                </span>
+                                                                <span>•</span>
+                                                                <span>{provider.experience || 0} Yrs Exp.</span>
+                                                            </div>
+                                                            <div style={{ marginTop: '0.85rem', fontSize: '0.95rem', background: 'var(--surface-highlight)', padding: '0.5rem 0.75rem', borderRadius: '0.5rem', display: 'inline-block' }}>
+                                                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '2px' }}>
+                                                                    Estimated Cost {booking.contractDays > 1 ? `(${booking.contractDays} days)` : '(1 day)'}
+                                                                </div>
+                                                                <span style={{ color: 'var(--text-primary)' }}>₹{provider.proposedRate}</span><span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>/day</span>
+                                                                <span style={{ margin: '0 0.4rem', color: 'var(--text-muted)' }}>•</span>
+                                                                <span style={{ color: 'var(--text-primary)' }}>{provider.proposedTime}</span><span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}> hrs/day</span>
+                                                                <span style={{ margin: '0 0.5rem', color: 'var(--text-muted)' }}>=</span>
+                                                                <span style={{ color: 'var(--success-color)', fontWeight: 700, fontSize: '1.1rem' }}>
+                                                                    ₹{(parseFloat(provider.proposedRate) || 0) * (booking.contractDays || 1)}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <button
-                                                            onClick={() => hireProvider(booking.id, provider.id)}
+                                                            onClick={() => {
+                                                                hireProvider(booking.id, provider.id);
+                                                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                                            }}
                                                             className="btn btn-sm"
-                                                            style={{ background: 'var(--secondary-color)', color: '#ffffff', padding: '0.75rem 1.5rem', alignSelf: 'center' }}
+                                                            style={{ background: 'var(--secondary-color)', color: '#ffffff', padding: '0.75rem 1.5rem', alignSelf: 'center', whiteSpace: 'nowrap' }}
                                                         >
                                                             Hire Pro
                                                         </button>
