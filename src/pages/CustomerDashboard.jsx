@@ -1,7 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { translations } from '../utils/translations';
-import { PlusCircle, Wrench, Package, Clock, Star, ShieldCheck } from 'lucide-react';
+import { Wrench, Package, Clock, Star, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getRatingColor } from '../utils/ratingColors';
 

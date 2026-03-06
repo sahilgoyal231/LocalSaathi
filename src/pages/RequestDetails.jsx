@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { ArrowLeft, Check, CheckCircle, Package } from 'lucide-react';
 import logoImg from '../assets/logo.png';
