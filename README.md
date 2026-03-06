@@ -1,4 +1,4 @@
-`# LocalSaathi 🤝
+# LocalSaathi 🤝
 
 LocalSaathi is a comprehensive, multilingual platform designed to connect **Customers**, local **Servicemen**, and material **Shopkeepers** in a unified, accessible ecosystem. Built with React and tailored for the diverse Indian demographic, it features a modern glassmorphic UI, 12-language regional localization, and specialized accessibility features including a custom multi-lingual Text-to-Speech (TTS) engine for users with literacy challenges.
 
