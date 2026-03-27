@@ -10,14 +10,14 @@ const NotificationDropdown = ({ onClose }) => {
 
     if (sortedNotifs.length === 0) {
         return (
-            <div style={{ position: 'absolute', top: '100%', right: '0', background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1rem', width: '300px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', zIndex: 1000 }}>
+            <div style={{ position: 'absolute', top: '100%', right: '0', background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1rem', width: '300px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', zIndex: 1000 }}>
                 <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>No notifications</p>
             </div>
         );
     }
 
     return (
-        <div style={{ position: 'absolute', top: '100%', right: '0', background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', width: '300px', maxHeight: '400px', overflowY: 'auto', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', zIndex: 1000 }}>
+        <div style={{ position: 'absolute', top: '100%', right: '0', background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', width: '300px', maxHeight: '400px', overflowY: 'auto', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', zIndex: 1000 }}>
             <div style={{ padding: '0.5rem 1rem', borderBottom: '1px solid var(--border-color)', fontWeight: 'bold' }}>Notifications</div>
             {sortedNotifs.map(notif => (
                 <div key={notif.id} style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)', background: notif.read ? 'transparent' : 'rgba(var(--primary-rgb), 0.05)' }}>

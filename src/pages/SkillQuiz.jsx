@@ -297,11 +297,10 @@ const SkillQuiz = () => {
         const passed = score >= 4;
         await updateProfile({ quizScore: score, skillVerified: passed });
         if (passed) {
-            alert(t.passedQuiz || 'Congratulations! You passed the skill verification.');
-            navigate('/dashboard');
+            navigate('/dashboard', { replace: true });
         } else {
             logout();
-            navigate('/register', { state: { error: t.failedQuiz } });
+            navigate('/register', { state: { error: t.failedQuiz }, replace: true });
         }
     };
 

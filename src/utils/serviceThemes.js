@@ -33,7 +33,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
         icon: Zap,
         icons: [Zap, Lightbulb, Plug, Cable],
-        image: '/images/electrician.png',
+        image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1000',
     },
     'Plumber': {
         primary: '#06B6D4',    // Cyan — water
@@ -44,7 +44,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)',
         icon: Droplets,
         icons: [Droplets, Bath, Waves, Tool],
-        image: '/images/plumber.png',
+        image: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1000',
     },
     'Carpenter': {
         primary: '#92400E',    // Warm Brown — wood craft
@@ -55,7 +55,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #B45309 0%, #92400E 100%)',
         icon: Hammer,
         icons: [Hammer, Ruler, Scissors, Tool],
-        image: '/images/carpenter.png',
+        image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&q=80&w=1000',
     },
     'Painter': {
         primary: '#8B5CF6',    // Violet — creative arts
@@ -66,7 +66,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
         icon: PaintBucket,
         icons: [PaintBucket, Brush, Palette, Droplet],
-        image: '/images/painter.png',
+        image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=1000',
     },
     'Cleaning': {
         primary: '#10B981',    // Emerald — fresh / clean
@@ -77,7 +77,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
         icon: Sparkles,
         icons: [Sparkles, Trash2, Home],
-        image: '/images/cleaning.png',
+        image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1000',
     },
     'Labour': {
         primary: '#EF4444',    // Red — physical strength
@@ -88,7 +88,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
         icon: HardHat,
         icons: [HardHat, Truck, Box, Pickaxe],
-        image: '/images/labour.png',
+        image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&q=80&w=1000',
     },
     'Mistri': {
         primary: '#D97706',    // Orange — construction
@@ -99,7 +99,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #D97706 0%, #B45309 100%)',
         icon: BrickWall,
         icons: [BrickWall, Building, DoorOpen, Helmet],
-        image: '/images/mistri.png',
+        image: 'https://images.unsplash.com/photo-1515588562968-3d1a385e4e4f?auto=format&fit=crop&q=80&w=1000',
     },
     'Maid': {
         primary: '#EC4899',    // Pink — home care
@@ -110,7 +110,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #EC4899 0%, #DB2777 100%)',
         icon: SprayCan,
         icons: [SprayCan, Home, Sparkles],
-        image: '/images/maid.png',
+        image: 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=1000',
     },
     'DogWalker': {
         primary: '#14B8A6',    // Teal — outdoors / nature
@@ -121,7 +121,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)',
         icon: Footprints,
         icons: [Footprints, Dog, Bone, Cat],
-        image: '/images/dogwalker.png',
+        image: 'https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?auto=format&fit=crop&q=80&w=1000',
     },
     'Guard': {
         primary: '#64748B',    // Slate — security / authority
@@ -132,7 +132,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #64748B 0%, #475569 100%)',
         icon: ShieldCheck,
         icons: [ShieldCheck, Lock, Key, Shield],
-        image: '/images/guard.png',
+        image: 'https://images.unsplash.com/photo-1581568736305-49a04e012c13?auto=format&fit=crop&q=80&w=1000',
     },
     'Shopkeeper': {
         primary: '#6366F1',    // Indigo — commerce / brand
@@ -143,7 +143,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
         icon: Store,
         icons: [Store, ShoppingBag, ShoppingCart, Tag, CreditCard],
-        image: '/images/shopkeeper.png',
+        image: 'https://images.unsplash.com/photo-1570841054287-c0c4f1829b36?auto=format&fit=crop&q=80&w=1000',
     },
     'Customer': {
         primary: '#6366F1',
@@ -154,7 +154,7 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
         icon: User,
         icons: [User, Heart, Star, Bell, Clock],
-        image: '/images/customer.png',
+        image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=1000',
     },
     'default': {
         primary: '#6366F1',
@@ -165,6 +165,6 @@ export const serviceThemes = {
         buttonGradient: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
         icon: Wrench,
         icons: [Wrench, Sparkles, Star, Tag],
-        image: '/images/default.png',
+        image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1000',
     }
 };

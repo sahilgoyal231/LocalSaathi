@@ -15,7 +15,16 @@ const Dashboard = () => {
         case 'shopkeeper':
             return <ShopkeeperDashboard />;
         case 'serviceman':
-            if (!user.skillVerified) {
+            // Check both React state AND localStorage to handle the race condition
+            // where setUser() hasn't flushed yet but localStorage was already updated
+            let isVerified = user.skillVerified;
+            if (!isVerified) {
+                try {
+                    const stored = JSON.parse(localStorage.getItem('user') || '{}');
+                    isVerified = stored.skillVerified;
+                } catch (e) { /* ignore */ }
+            }
+            if (!isVerified) {
                 return <Navigate to="/skill-quiz" replace />;
             }
             return <ServicemanDashboard />;

@@ -43,7 +43,7 @@ const CustomerProfile = () => {
             <div style={{
                 position: 'absolute',
                 top: 0, left: 0, right: 0, bottom: 0,
-                backgroundColor: 'rgba(9, 9, 11, 0.70)',
+                backgroundColor: 'rgba(248, 250, 252, 0.85)',
                 zIndex: 0
             }} />
             <div className="container" style={{ padding: '2rem 1rem', maxWidth: '800px', width: '100%', position: 'relative', zIndex: 1 }}>

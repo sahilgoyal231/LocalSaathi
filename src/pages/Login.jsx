@@ -171,7 +171,97 @@ const Login = () => {
             </div>
 
             <div className="auth-hero-side">
-                {/* Dynamically sizing collage background image */}
+                <div style={{
+                    position: 'relative', zIndex: 2,
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2.5rem',
+                    maxWidth: '440px', textAlign: 'center'
+                }}>
+                    {/* Headline */}
+                    <div>
+                        <h2 style={{
+                            fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 800,
+                            color: '#1E1B4B', letterSpacing: '-0.03em',
+                            lineHeight: 1.2, marginBottom: '0.75rem'
+                        }}>
+                            Your Trusted Partner for Home Services
+                        </h2>
+                        <p style={{ fontSize: '0.95rem', color: '#4338CA', lineHeight: 1.6, fontWeight: 500 }}>
+                            Book verified professionals, get material quotes, and manage everything from one platform.
+                        </p>
+                    </div>
+
+                    {/* Stats Row */}
+                    <div style={{
+                        display: 'flex', gap: '1rem', width: '100%', justifyContent: 'center'
+                    }}>
+                        {[
+                            { num: '10K+', label: 'Services' },
+                            { num: '5K+', label: 'Users' },
+                            { num: '50+', label: 'Cities' }
+                        ].map((stat, i) => (
+                            <div key={i} style={{
+                                flex: 1, background: '#FFFFFF',
+                                borderRadius: '14px', padding: '1.25rem 0.75rem',
+                                boxShadow: '0 2px 12px rgba(79,70,229,0.08)',
+                                border: '1px solid rgba(99,102,241,0.12)'
+                            }}>
+                                <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#4F46E5' }}>{stat.num}</div>
+                                <div style={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 600, marginTop: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{stat.label}</div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Benefits */}
+                    <div style={{
+                        display: 'flex', flexDirection: 'column', gap: '1rem',
+                        textAlign: 'left', width: '100%'
+                    }}>
+                        {[
+                            { icon: '🛡️', title: 'Verified Professionals', desc: 'Background-checked & skill-tested pros' },
+                            { icon: '💰', title: 'Best Price Guarantee', desc: 'Transparent pricing, no hidden charges' },
+                            { icon: '⚡', title: 'Quick Response', desc: 'Get quotes within minutes, not days' }
+                        ].map((item, i) => (
+                            <div key={i} style={{
+                                display: 'flex', alignItems: 'center', gap: '1rem',
+                                background: 'rgba(255,255,255,0.7)', borderRadius: '12px',
+                                padding: '0.85rem 1rem',
+                                border: '1px solid rgba(99,102,241,0.08)'
+                            }}>
+                                <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>{item.icon}</span>
+                                <div>
+                                    <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#1E1B4B' }}>{item.title}</div>
+                                    <div style={{ fontSize: '0.8rem', color: '#6366F1', fontWeight: 500 }}>{item.desc}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Testimonial */}
+                    <div style={{
+                        background: '#FFFFFF', borderRadius: '14px',
+                        padding: '1.25rem', width: '100%',
+                        boxShadow: '0 2px 10px rgba(79,70,229,0.06)',
+                        border: '1px solid rgba(99,102,241,0.1)',
+                        textAlign: 'left'
+                    }}>
+                        <div style={{ fontSize: '0.85rem', color: '#334155', lineHeight: 1.6, fontStyle: 'italic' }}>
+                            "LocalSaathi saved us hours of work finding reliable contractors. Highly recommended!"
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.75rem' }}>
+                            <div style={{
+                                width: '32px', height: '32px', borderRadius: '50%',
+                                background: 'linear-gradient(135deg, #6366F1, #4F46E5)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                color: '#fff', fontSize: '0.75rem', fontWeight: 700
+                            }}>R</div>
+                            <div>
+                                <div style={{ fontWeight: 600, fontSize: '0.8rem', color: '#1E1B4B' }}>Rajesh K.</div>
+                                <div style={{ fontSize: '0.7rem', color: '#94A3B8' }}>Homeowner, Hyderabad</div>
+                            </div>
+                            <div style={{ marginLeft: 'auto', color: '#F59E0B', fontSize: '0.85rem', letterSpacing: '2px' }}>★★★★★</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

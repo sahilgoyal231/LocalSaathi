@@ -43,7 +43,7 @@ const ShopkeeperProfile = () => {
             {/* Full-page dark + indigo-tinted overlay */}
             <div style={{
                 position: 'absolute', inset: 0,
-                background: `linear-gradient(160deg, rgba(9,9,11,0.82) 0%, rgba(9,9,11,0.70) 50%, ${theme.accent} 100%)`,
+                background: `linear-gradient(160deg, rgba(248,250,252,0.88) 0%, rgba(248,250,252,0.78) 50%, ${theme.accent} 100%)`,
                 zIndex: 0,
             }} />
 
@@ -62,17 +62,17 @@ const ShopkeeperProfile = () => {
                         style={{
                             display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
                             padding: '0.4rem 0.9rem',
-                            background: 'rgba(0,0,0,0.50)',
+                            background: 'rgba(255,255,255,0.85)',
                             backdropFilter: 'blur(10px)',
-                            color: '#fff',
-                            border: '1px solid rgba(255,255,255,0.15)',
+                            color: 'var(--text-primary)',
+                            border: '1px solid var(--border-color)',
                             borderRadius: 'var(--radius-full)',
                             cursor: 'pointer',
                             fontSize: '0.8rem', fontWeight: 500,
                             transition: 'all 0.2s ease',
                         }}
-                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.70)'}
-                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.50)'}
+                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.95)'}
+                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.85)'}
                     >
                         <ArrowLeft size={14} /> Back
                     </button>
@@ -85,17 +85,17 @@ const ShopkeeperProfile = () => {
                         <ThemeIcon size={22} color="#fff" />
                     </div>
                     <div>
-                        <h1 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.02em', textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
+                        <h1 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                             Shop Profile
                         </h1>
-                        <p style={{ margin: '0.15rem 0 0', fontSize: '0.8rem', color: theme.secondary, fontWeight: 500, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+                        <p style={{ margin: '0.15rem 0 0', fontSize: '0.8rem', color: theme.primary, fontWeight: 500 }}>
                             Update your shop details and business information
                         </p>
                     </div>
                 </div>
                 <div className="card" style={{
                     borderTop: `3px solid ${theme.primary}`,
-                    background: 'rgba(17,24,39,0.82)',
+                    background: 'rgba(255,255,255,0.92)',
                     backdropFilter: 'blur(16px)',
                     WebkitBackdropFilter: 'blur(16px)',
                     border: `1px solid ${theme.border}`,

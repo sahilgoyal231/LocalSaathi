@@ -59,12 +59,13 @@ const ServicemanDashboard = () => {
     };
 
     const glassCard = {
-        background: 'rgba(17,24,39,0.90)',
+        background: 'rgba(255,255,255,0.92)',
         backdropFilter: 'blur(14px)',
         WebkitBackdropFilter: 'blur(14px)',
         border: `1px solid ${theme.border}`,
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: '16px',
         padding: '1.5rem',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
     };
 
     return (
@@ -79,7 +80,7 @@ const ServicemanDashboard = () => {
             {/* Full-page dark + category-tinted overlay */}
             <div style={{
                 position: 'absolute', inset: 0,
-                background: `linear-gradient(160deg, rgba(9,9,11,0.85) 0%, rgba(9,9,11,0.72) 50%, ${theme.accent} 100%)`,
+                background: `linear-gradient(160deg, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.60) 50%, ${theme.accent} 100%)`,
                 zIndex: 0,
             }} />
 
@@ -87,15 +88,15 @@ const ServicemanDashboard = () => {
             <div style={{ position: 'relative', zIndex: 1, padding: '2rem 1rem', paddingBottom: '4rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                     <div>
-                        <h1 style={{ color: '#fff', letterSpacing: '-0.02em', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>{t.welcome}, {user.name}!</h1>
-                        <p style={{ color: 'rgba(255,255,255,0.55)', textShadow: '0 1px 4px rgba(0,0,0,0.4)', fontSize: '0.9rem' }}>{user.skills || 'Pro'} · LocalSaathi</p>
+                        <h1 style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>{t.welcome}, {user.name}!</h1>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{user.skills || 'Pro'} · LocalSaathi</p>
 
                     </div>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                         {!user.skillVerified && (
-                            <Link to="/skill-quiz" className="btn btn-primary" style={{ padding: '0.65rem 1.4rem', fontSize: '1rem', fontWeight: '600', boxShadow: '0 4px 15px rgba(234, 179, 8, 0.4)' }}>{t.verifySkills}</Link>
+                            <Link to="/skill-quiz" className="btn btn-primary" style={{ padding: '0.65rem 1.4rem', fontSize: '1rem', fontWeight: '600' }}>{t.verifySkills}</Link>
                         )}
-                        <Link to="/profile" className="btn btn-outline" style={{ padding: '0.65rem 1.4rem', fontSize: '1rem', fontWeight: '600', backgroundColor: 'rgba(255, 255, 255, 0.1)', color: '#fff', borderColor: 'rgba(255, 255, 255, 0.3)' }}>{t.profile}</Link>
+                        <Link to="/profile" className="btn btn-outline" style={{ padding: '0.65rem 1.4rem', fontSize: '1rem', fontWeight: '600' }}>{t.profile}</Link>
                     </div>
                 </div>
 
@@ -146,8 +147,8 @@ const ServicemanDashboard = () => {
                             <Briefcase size={24} color={theme.primary} />
                         </div>
                         <div>
-                            <h3 style={{ margin: 0, color: '#fff' }}>{availableJobs.length}</h3>
-                            <small style={{ color: 'rgba(255,255,255,0.55)' }}>New Jobs</small>
+                            <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>{availableJobs.length}</h3>
+                            <small style={{ color: 'var(--text-secondary)' }}>New Jobs</small>
                         </div>
                     </div>
                     <div style={{ ...glassCard, display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '4px solid var(--accent-color)' }} className="anim-slide-up stagger-2">
@@ -155,8 +156,8 @@ const ServicemanDashboard = () => {
                             <Clock size={24} color="var(--accent-color)" />
                         </div>
                         <div>
-                            <h3 style={{ margin: 0, color: '#fff' }}>{myJobs.filter(j => j.status === 'accepted').length}</h3>
-                            <small style={{ color: 'rgba(255,255,255,0.55)' }}>Active</small>
+                            <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>{myJobs.filter(j => j.status === 'accepted').length}</h3>
+                            <small style={{ color: 'var(--text-secondary)' }}>Active</small>
                         </div>
                     </div>
                     <div style={{ ...glassCard, display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '4px solid var(--success-color)' }} className="anim-slide-up stagger-3">
@@ -164,8 +165,8 @@ const ServicemanDashboard = () => {
                             <CheckCircle size={24} color="var(--success-color)" />
                         </div>
                         <div>
-                            <h3 style={{ margin: 0, color: '#fff' }}>{myJobs.filter(j => j.status === 'completed').length}</h3>
-                            <small style={{ color: 'rgba(255,255,255,0.55)' }}>Done</small>
+                            <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>{myJobs.filter(j => j.status === 'completed').length}</h3>
+                            <small style={{ color: 'var(--text-secondary)' }}>Done</small>
                         </div>
                     </div>
                 </div>
@@ -174,7 +175,7 @@ const ServicemanDashboard = () => {
 
                     {/* Available Jobs */}
                     <div>
-                        <h3 style={{ marginBottom: '1rem', color: theme.secondary, display: 'flex', alignItems: 'center', gap: '0.5rem', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+                        <h3 style={{ marginBottom: '1rem', color: theme.primary, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Briefcase size={20} /> {t.jobBoard}
                         </h3>
 
@@ -230,7 +231,7 @@ const ServicemanDashboard = () => {
 
                     {/* My Jobs */}
                     <div>
-                        <h3 style={{ marginBottom: '1rem', color: theme.secondary, display: 'flex', alignItems: 'center', gap: '0.5rem', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+                        <h3 style={{ marginBottom: '1rem', color: theme.primary, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Clock size={20} /> {t.myJobs}
                         </h3>
 
@@ -288,7 +289,7 @@ const ServicemanDashboard = () => {
 
                 {/* Performance & Status */}
                 <div style={{ marginTop: '3rem' }}>
-                    <h3 style={{ marginBottom: '1.25rem', color: '#fff', fontSize: '1rem', fontWeight: 600, letterSpacing: '-0.01em', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>Performance &amp; Status</h3>
+                    <h3 style={{ marginBottom: '1.25rem', color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, letterSpacing: '-0.01em' }}>Performance & Status</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
 
                         {/* Status card */}
@@ -297,7 +298,7 @@ const ServicemanDashboard = () => {
                                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--primary-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <CheckCircle size={18} color="var(--primary-color)" />
                                 </div>
-                                <h4 style={{ margin: 0, color: '#fff', fontWeight: 600 }}>
+                                <h4 style={{ margin: 0, color: 'var(--text-primary)', fontWeight: 600 }}>
                                     {user.skillVerified ? 'Verified Expert' : 'Pending Verification'}
                                 </h4>
                             </div>
@@ -316,7 +317,7 @@ const ServicemanDashboard = () => {
                                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--warning-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <span style={{ fontSize: '1rem' }}>⭐</span>
                                 </div>
-                                <h4 style={{ margin: 0, color: '#fff', fontWeight: 600 }}>Customer Rating</h4>
+                                <h4 style={{ margin: 0, color: 'var(--text-primary)', fontWeight: 600 }}>Customer Rating</h4>
                             </div>
                             <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--warning-color)', lineHeight: 1 }}>
                                 {getProviderRating(user.id)}
@@ -331,7 +332,7 @@ const ServicemanDashboard = () => {
                                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--success-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <Briefcase size={18} color="var(--success-color)" />
                                 </div>
-                                <h4 style={{ margin: 0, color: '#fff', fontWeight: 600 }}>Jobs Completed</h4>
+                                <h4 style={{ margin: 0, color: 'var(--text-primary)', fontWeight: 600 }}>Jobs Completed</h4>
                             </div>
                             <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--success-color)', lineHeight: 1 }}>
                                 {myJobs.filter(j => j.status === 'completed').length}

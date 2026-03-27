@@ -68,6 +68,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateProfile = async (updates) => {
+    // Handle demo users locally without hitting the API
+    if (user && user.token === 'demo-token') {
+      const updatedUser = { ...user, ...updates };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      return { success: true };
+    }
+
     try {
       const response = await fetch('http://localhost:5001/api/auth/profile', {
         method: 'PUT',
@@ -85,16 +93,9 @@ export const AuthProvider = ({ children }) => {
         setUser(data);
         return { success: true };
       } else {
-        return { success: false, message: data.message };
+        return { success: false, message: data.message || 'Update failed' };
       }
     } catch (error) {
-      // Fallback for demo users
-      if (user && user.id && user.token === 'demo-token') {
-        const updatedUser = { ...user, ...updates };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        setUser(updatedUser);
-        return { success: true };
-      }
       return { success: false, message: error.message };
     }
   };

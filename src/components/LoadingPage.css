@@ -4,7 +4,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: var(--background-color, #0B0F1A);
+    background-color: #FFFFFF;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,16 +13,16 @@
     overflow: hidden;
 }
 
-/* Subtle background glowing effect */
+/* Subtle background glow */
 .loading-page::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60vh;
-    height: 60vh;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(11, 15, 26, 0) 70%);
+    width: 50vh;
+    height: 50vh;
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.06) 0%, transparent 70%);
     border-radius: 50%;
     animation: bgPulse 4s ease-in-out infinite alternate;
     pointer-events: none;
@@ -35,7 +35,7 @@
     z-index: 1;
 }
 
-/* Logo container with pulse rings */
+/* Logo container */
 .logo-container {
     position: relative;
     width: 120px;
@@ -47,12 +47,12 @@
 }
 
 .loading-logo {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     z-index: 2;
     animation: logoFloat 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.4));
+    filter: drop-shadow(0 4px 12px rgba(79, 70, 229, 0.2));
 }
 
 .pulse-ring {
@@ -63,7 +63,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid var(--primary-color, #6366F1);
+    border: 2px solid var(--primary-color, #4F46E5);
     opacity: 0;
     animation: ringPulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
@@ -76,35 +76,35 @@
     right: -10px;
     bottom: -10px;
     border-radius: 50%;
-    border: 1px solid rgba(99, 102, 241, 0.5);
+    border: 1px solid rgba(79, 70, 229, 0.3);
     opacity: 0;
     animation: ringPulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
     animation-delay: 0.3s;
 }
 
-/* Title text */
+/* Title */
 .loading-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--text-primary, #F9FAFB);
+    color: var(--text-primary, #0F172A);
     margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     opacity: 0;
     animation: fadeInUp 0.8s forwards 0.3s;
 }
 
 .text-gradient {
-    background: linear-gradient(135deg, #6366F1 0%, #38BDF8 100%);
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
-/* Dynamic Loading Bar */
+/* Loading Bar */
 .loading-bar-container {
-    width: 240px;
-    height: 4px;
-    background: var(--surface-raised, #1F2937);
+    width: 200px;
+    height: 3px;
+    background: #F1F5F9;
     border-radius: 4px;
     overflow: hidden;
     position: relative;
@@ -115,7 +115,7 @@
 .loading-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #6366F1, #38BDF8, #6366F1);
+    background: linear-gradient(90deg, #6366F1, #818CF8, #6366F1);
     background-size: 200% 100%;
     border-radius: 4px;
     animation:
@@ -127,38 +127,29 @@
 .loading-subtitle {
     margin-top: 1.5rem;
     font-size: 0.9rem;
-    color: var(--text-muted, #6B7280);
+    color: var(--text-muted, #94A3B8);
     font-weight: 500;
     opacity: 0;
     animation: fadeInUp 0.8s forwards 0.9s;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
 }
 
 /* Keyframes */
 @keyframes bgPulse {
     0% {
-        transform: translate(-50%, -50%) scale(0.8);
+        transform: translate(-50%, -50%) scale(0.9);
         opacity: 0.5;
     }
-
     100% {
-        transform: translate(-50%, -50%) scale(1.2);
+        transform: translate(-50%, -50%) scale(1.1);
         opacity: 0.8;
     }
 }
 
 @keyframes logoFloat {
-    0% {
-        transform: translateY(0px) scale(1);
-    }
-
-    50% {
-        transform: translateY(-8px) scale(1.05);
-    }
-
-    100% {
-        transform: translateY(0px) scale(1);
-    }
+    0% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-6px) scale(1.03); }
+    100% { transform: translateY(0px) scale(1); }
 }
 
 @keyframes ringPulse {
@@ -167,9 +158,8 @@
         opacity: 1;
         border-width: 3px;
     }
-
     100% {
-        transform: translate(-50%, -50%) scale(1.8);
+        transform: translate(-50%, -50%) scale(1.6);
         opacity: 0;
         border-width: 1px;
     }
@@ -178,9 +168,8 @@
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(15px);
+        transform: translateY(12px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -188,29 +177,13 @@
 }
 
 @keyframes fillBar {
-    0% {
-        width: 0%;
-    }
-
-    40% {
-        width: 60%;
-    }
-
-    80% {
-        width: 90%;
-    }
-
-    100% {
-        width: 100%;
-    }
+    0% { width: 0%; }
+    40% { width: 60%; }
+    80% { width: 90%; }
+    100% { width: 100%; }
 }
 
 @keyframes shimmerBar {
-    0% {
-        background-position: 100% 0;
-    }
-
-    100% {
-        background-position: -100% 0;
-    }
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
 }
